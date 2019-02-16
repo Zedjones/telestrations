@@ -1,149 +1,220 @@
--- MySQL dump 10.17  Distrib 10.3.12-MariaDB, for Linux (x86_64)
 --
--- Host: 127.0.0.1    Database: telestrations
--- ------------------------------------------------------
--- Server version	10.3.12-MariaDB
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `guess`
+-- PostgreSQL database dump
 --
 
-DROP TABLE IF EXISTS `guess`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `guess` (
-  `user_id` int(10) unsigned NOT NULL,
-  `word` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `round` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `guess_user_id_uindex` (`user_id`),
-  CONSTRAINT `guess_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- Dumped from database version 11.1
+-- Dumped by pg_dump version 11.1
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
 
 --
--- Dumping data for table `guess`
+-- Name: difficulty_t; Type: TYPE; Schema: public; Owner: zedjones
 --
 
-LOCK TABLES `guess` WRITE;
-/*!40000 ALTER TABLE `guess` DISABLE KEYS */;
-/*!40000 ALTER TABLE `guess` ENABLE KEYS */;
-UNLOCK TABLES;
+CREATE TYPE public.difficulty_t AS ENUM (
+    'Easy',
+    'Medium',
+    'Hard',
+    'Hardcore'
+);
+
+
+ALTER TYPE public.difficulty_t OWNER TO zedjones;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
 
 --
--- Table structure for table `picture`
+-- Name: guess; Type: TABLE; Schema: public; Owner: zedjones
 --
 
-DROP TABLE IF EXISTS `picture`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `picture` (
-  `user` int(10) unsigned NOT NULL,
-  `svg` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `round` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`user`),
-  UNIQUE KEY `picture_user_uindex` (`user`),
-  CONSTRAINT `picture_user_id_fk` FOREIGN KEY (`user`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE public.guess (
+    user_id integer NOT NULL,
+    word character varying(255) NOT NULL,
+    round integer NOT NULL
+);
+
+
+ALTER TABLE public.guess OWNER TO zedjones;
 
 --
--- Dumping data for table `picture`
+-- Name: picture; Type: TABLE; Schema: public; Owner: zedjones
 --
 
-LOCK TABLES `picture` WRITE;
-/*!40000 ALTER TABLE `picture` DISABLE KEYS */;
-/*!40000 ALTER TABLE `picture` ENABLE KEYS */;
-UNLOCK TABLES;
+CREATE TABLE public.picture (
+    user_id integer NOT NULL,
+    svg text NOT NULL,
+    round integer NOT NULL
+);
+
+
+ALTER TABLE public.picture OWNER TO zedjones;
 
 --
--- Table structure for table `prefix`
+-- Name: settings; Type: TABLE; Schema: public; Owner: zedjones
 --
 
-DROP TABLE IF EXISTS `prefix`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `prefix` (
-  `prefix` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`prefix`),
-  UNIQUE KEY `prefix_prefix_uindex` (`prefix`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE public.settings (
+    id integer NOT NULL,
+    time_limit integer DEFAULT 0,
+    word_difficulty public.difficulty_t DEFAULT 'Easy'::public.difficulty_t
+);
+
+
+ALTER TABLE public.settings OWNER TO zedjones;
 
 --
--- Dumping data for table `prefix`
+-- Name: user; Type: TABLE; Schema: public; Owner: zedjones
 --
 
-LOCK TABLES `prefix` WRITE;
-/*!40000 ALTER TABLE `prefix` DISABLE KEYS */;
-/*!40000 ALTER TABLE `prefix` ENABLE KEYS */;
-UNLOCK TABLES;
+CREATE TABLE public."user" (
+    id integer NOT NULL,
+    name character varying(24)
+);
+
+
+ALTER TABLE public."user" OWNER TO zedjones;
 
 --
--- Table structure for table `settings`
+-- Name: user_id_seq; Type: SEQUENCE; Schema: public; Owner: zedjones
 --
 
-DROP TABLE IF EXISTS `settings`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `settings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `time_limit_sec` int(11) DEFAULT -1,
-  `word_difficulty` enum('Easy','Medium','Hard','Hardcore') COLLATE utf8mb4_unicode_ci DEFAULT 'Easy',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE SEQUENCE public.user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_id_seq OWNER TO zedjones;
 
 --
--- Dumping data for table `settings`
+-- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: zedjones
 --
 
-LOCK TABLES `settings` WRITE;
-/*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-/*!40000 ALTER TABLE `settings` ENABLE KEYS */;
-UNLOCK TABLES;
+ALTER SEQUENCE public.user_id_seq OWNED BY public."user".id;
+
 
 --
--- Table structure for table `user`
+-- Name: user id; Type: DEFAULT; Schema: public; Owner: zedjones
 --
 
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(24) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+ALTER TABLE ONLY public."user" ALTER COLUMN id SET DEFAULT nextval('public.user_id_seq'::regclass);
+
 
 --
--- Dumping data for table `user`
+-- Data for Name: guess; Type: TABLE DATA; Schema: public; Owner: zedjones
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+COPY public.guess (user_id, word, round) FROM stdin;
+\.
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-16 15:27:37
+--
+-- Data for Name: picture; Type: TABLE DATA; Schema: public; Owner: zedjones
+--
+
+COPY public.picture (user_id, svg, round) FROM stdin;
+\.
+
+
+--
+-- Data for Name: settings; Type: TABLE DATA; Schema: public; Owner: zedjones
+--
+
+COPY public.settings (id, time_limit, word_difficulty) FROM stdin;
+\.
+
+
+--
+-- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: zedjones
+--
+
+COPY public."user" (id, name) FROM stdin;
+\.
+
+
+--
+-- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: zedjones
+--
+
+SELECT pg_catalog.setval('public.user_id_seq', 1, false);
+
+
+--
+-- Name: guess guess_pk; Type: CONSTRAINT; Schema: public; Owner: zedjones
+--
+
+ALTER TABLE ONLY public.guess
+    ADD CONSTRAINT guess_pk PRIMARY KEY (user_id);
+
+
+--
+-- Name: picture picture_pk; Type: CONSTRAINT; Schema: public; Owner: zedjones
+--
+
+ALTER TABLE ONLY public.picture
+    ADD CONSTRAINT picture_pk PRIMARY KEY (user_id);
+
+
+--
+-- Name: settings settings_pk; Type: CONSTRAINT; Schema: public; Owner: zedjones
+--
+
+ALTER TABLE ONLY public.settings
+    ADD CONSTRAINT settings_pk PRIMARY KEY (id);
+
+
+--
+-- Name: user user_pk; Type: CONSTRAINT; Schema: public; Owner: zedjones
+--
+
+ALTER TABLE ONLY public."user"
+    ADD CONSTRAINT user_pk PRIMARY KEY (id);
+
+
+--
+-- Name: settings_id_uindex; Type: INDEX; Schema: public; Owner: zedjones
+--
+
+CREATE UNIQUE INDEX settings_id_uindex ON public.settings USING btree (id);
+
+
+--
+-- Name: user_id_uindex; Type: INDEX; Schema: public; Owner: zedjones
+--
+
+CREATE UNIQUE INDEX user_id_uindex ON public."user" USING btree (id);
+
+
+--
+-- Name: guess guess_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: zedjones
+--
+
+ALTER TABLE ONLY public.guess
+    ADD CONSTRAINT guess_user_id_fk FOREIGN KEY (user_id) REFERENCES public."user"(id);
+
+
+--
+-- Name: picture picture_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: zedjones
+--
+
+ALTER TABLE ONLY public.picture
+    ADD CONSTRAINT picture_user_id_fk FOREIGN KEY (user_id) REFERENCES public."user"(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
