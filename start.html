@@ -32,18 +32,51 @@
             <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Telestrations</a>
                 <!-- nav -->
                 <ul class="right hide-on-med-and-down">
-                    <li><a class="waves-effect waves-light btn modal-trigger" href="#modal1">Settings</a></li>
+                    <li><a class="indigo darken-1 waves-effect waves-light btn modal-trigger" href="#modal1">Settings</a></li>
                     <!-- modal -->
-                      <!-- Modal Structure -->
-                      <div id="modal1" class="modal bottom-sheet">
-                        <div class="modal-content">
-                          <h4>Modal Header</h4>
-                          <p>A bunch of text</p>
+                    <div id="modal1" class="modal">
+                        <div class="modal-content grey-text text-darken-2">
+                            <h4 class="black-text no-padding">Settings</h4>
+                            <!-- time limit -->
+                            <div class="input-field col s12">
+                                <select>
+                                    <option value="" disabled selected>Time Limit (in seconds)</option>
+                                    <option value="1">30</option>
+                                    <option value="2">60</option>
+                                    <option value="3">90</option>
+                                    <option value="3">120</option>
+                                    <option value="3">No Limit</option>
+                                </select>
+                            </div>
+        
+                            <form action="">
+                                <!-- difficulty settings -->
+                                <p>
+                                     Difficulty:
+                                    <label>
+                                        <input class="with-gap" name="group1" type="radio" checked/>
+                                        <span>Easy&thinsp;&thinsp;&thinsp;&thinsp;</span>
+                                    </label>
+                                    <label>
+                                        <input class="with-gap" name="group1" type="radio"/>
+                                        <span>Medium&thinsp;&thinsp;&thinsp;&thinsp;</span>
+                                    </label>
+                                    <label>
+                                        <input class="with-gap" name="group1" type="radio"/>
+                                        <span>Hard&thinsp;&thinsp;&thinsp;&thinsp;</span>
+                                    </label>
+                                    <label>
+                                        <input class="with-gap" name="group1" type="radio"/>
+                                        <span>Hardcore</span>
+                                    </label>
+                                </p>
+                                <br>
+                            </form>
+                            <div class="modal-footer">
+                                <a href="#!" class="modal-close waves-effect waves-light btn-flat">Save</a>
+                            </div>
                         </div>
-                        <div class="modal-footer">
-                          <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-                        </div>
-                      </div>
+                    </div>
                 </ul>
                 <!-- mobile nav -->
                 <ul id="nav-mobile" class="sidenav">

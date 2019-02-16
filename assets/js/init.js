@@ -1,7 +1,14 @@
+// initialize necessary materialize components
 (function($){
-  $(function(){
-
-    $('.sidenav').sidenav();
-
-  }); // end of document ready
-})(jQuery); // end of jQuery name space
+    $(function(){
+        $('.sidenav').sidenav();
+        
+        $('.modal').modal({
+            dismissible: false
+        });
+            
+        $('.dropdown-trigger').dropdown();
+        
+        $('select').formSelect();
+    });
+})(jQuery);
