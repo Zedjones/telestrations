@@ -2,50 +2,121 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Start</title>
-        <link rel="stylesheet" href="">
-        <!-- SOURCE : http://literallycanvas.com/index.html open source drawing board code -->
+        <title>Telestrations</title>
         
-        <!-- stylesheet -->
-        <link href="assets/css/literallycanvas.css" rel="stylesheet">
+        
+        <!-- materialize.css-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
         <!-- dependency: React.js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-with-addons.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
-
-        <!-- Literally Canvas -->
+        
+        <!-- SOURCE : http://literallycanvas.com/index.html open source drawing board code -->
         <script src="assets/js/literallycanvas.js"></script>
+        <link href="assets/css/literallycanvas.css" rel="stylesheet">
     </head>
     
     <body>
-        <div id="body">
-            <div id="main"></div>
-            <div id="players"><h3>Current Players:</h3></div>
-            <!-- canvas widget -->
-            <div id="drawing" class="my-drawing"></div>
+        <nav class="indigo lighten-2" role="navigation">
+        <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
+          <ul class="right hide-on-med-and-down">
+            <li><a href="#">Navbar Link</a></li>
+          </ul>
+            <ul class="right hide-on-med-and-down">
+            <li><a href="#">Navbar Link</a></li>
+          </ul>
+            <ul class="right hide-on-med-and-down">
+            <li><a href="#">Navbar Link</a></li>
+          </ul>
+
+          <ul id="nav-mobile" class="sidenav">
+            <li><a href="#">Navbar Link</a></li>
+          </ul>
+          <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         </div>
+      </nav>
+      <div class="section no-pad-bot no-pad-top" id="index-banner">
+        <div class="container">
+          <br><br>
+          <h1 class="header center deep-purple-text text-lighten-1">Telestrations</h1>
+          <div class="row center">
+            <h5 class="header col s12 light">The future of drawing games</h5>
+          </div>
+          <div class="row center no-pad-bot">
+            <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light deep-purple darken-1">Start Game</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="section">
+          <div class="row">
+            <div class="col s3 m3 players">
+              <div class="icon-block">
+                <h2 class="center deep-purple-text text-lighten-2"><i class="material-icons">group</i></h2>
+                <h5 class="center">Current Players:</h5>
+                <p class="light" id="players"></p>
+              </div>
+            </div>
+
+            <div class="col s9 m9">
+              <div class="icon-block">
+                <h2 class="center deep-purple-text text-lighten-2"><i class="material-icons">brush</i></h2>
+                <h5 class="center">Here's what the drawing board will look like:</h5>
+                <div id="drawing" class="my-drawing"></div>
+                  
+                  <input type="button" value="Convert" onclick="toSVG();" />
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <br><br>
+      </div>
+
+      <footer class="page-footer indigo lighten-3">
+        <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="white-text">How to Play</h5>
+              <p class="grey-text text-lighten-3">Think of the telephone game but using drawings. Each player will be given a word to draw, each drawing will then be passed around to the next person. Players will guess the drawing they have recieved, then those guesses will be passed to the next person. There, players start again and draw the guess they have recieved. This continues until you recieve your original drawing and see how it transformed!</p>
+            </div>
+            <div class="col l6 s12">
+              <h5 class="white-text">Sources</h5>
+              <ul>
+                <li><a class="white-text" href="https://theop.games/products/game/telestrations-12-player-the-party-pack/">Telestrations</a></li>
+                <li><a class="white-text" href="https://materializecss.com/">Materialize</a></li>
+                <li><a class="white-text" href="http://literallycanvas.com/index.html">Literally Canvas</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <div class="container">
+          Made by <a class="deep-purple-text text-darken-1" href="https://github.com/Zedjones/telestrations">Ellie, Nick, and Cory</a>
+          </div>
+        </div>
+      </footer>
 
         <!-- initialize canvas -->
         <script>
-            LC.init(
+            var lc = LC.init(
                 document.getElementsByClassName('my-drawing')[0],
                 {imageURLPrefix: 'assets/images'}
             );
+            function toSVG(){
+                var svgString = lc.getSVGString();
+                console.log(svgString);
+            }
         </script>
         
-        <!-- my script -->
-        <script>
-            var main = document.getElementById('main');
-            var title = document.createElement('h2');
-            var t = document.createTextNode('Welcome!'); 
-            title.appendChild(t);
-            main.appendChild(title);
-            
-            var drawing = document.getElementById('drawing');
-            var title2 = document.createElement('h3');
-            var t2 = document.createTextNode('Here is what the drawing board will look like.'); 
-            title2.appendChild(t2);
-            drawing.insertBefore(title2, drawing.firstChild);           
-        </script>
+        <!-- materialize script -->
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="assets/js/materialize.js"></script>
+        <script src="assets/js/init.js"></script>
+        
     </body> 
 </html>
