@@ -6,14 +6,13 @@
  * Made By MaterializeCSS.com
  */
 
+/* some materialize body styles */
 .icon-block .section .container .row{
-  padding: 0!important;
+    padding: 0!important;
 }
-
 .players{
     padding-left: 30px;
 }
-
 .icon-block .material-icons{
 	font-size: inherit;
 }

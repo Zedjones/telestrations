@@ -2,48 +2,34 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Player 1 (WIP)</title>
-        <link rel="stylesheet" href="">
-        <!-- SOURCE!! : http://literallycanvas.com/index.html open source drawing board code -->
+        <title>Telestrations</title>
         
-        <!-- stylesheet -->
-        <link href="assets/css/literallycanvas.css" rel="stylesheet">
-
-        <!-- dependency: React.js -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-with-addons.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
-
-        <!-- Literally Canvas -->
-        <script src="assets/js/literallycanvas.js"></script>
+        <!-- materialize.css-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     </head>
     
     <body>
-        <div id="main"></div>
-        <!-- where the widget goes. you can do CSS to it. -->
-        <!-- note: as of 0.4.13, you cannot use 'literally' as the class name.sorry about that. -->
-        <div class="my-drawing"></div>
-
-        <!-- kick it off -->
-        <script>
-            LC.init(
-                document.getElementsByClassName('my-drawing')[0],
-                {imageURLPrefix: 'assets/images'}
-            );
-        </script>
         
-        <!-- begin my code -->
-        <script>
-            var counter = 1;
-            
-            function newRound(){
-                var main = document.getElementById('main');
-                var title = document.createElement('h2');
-                var t = document.createTextNode('Round ' + counter); 
-                title.appendChild(t);
-                main.appendChild(title);
-                counter++;
-            }
-            newRound();
-        </script>
+         <!-- Modal Trigger -->
+  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+        
+        <!-- materialize script -->
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="assets/js/materialize.js"></script>
+        <script src="assets/js/init.js"></script>
+        
     </body> 
 </html>
