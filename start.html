@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Start</title>
+        <link rel="stylesheet" href="">
+        <!-- SOURCE : http://literallycanvas.com/index.html open source drawing board code -->
+        
+        <!-- stylesheet -->
+        <link href="assets/css/literallycanvas.css" rel="stylesheet">
+
+        <!-- dependency: React.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-with-addons.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
+
+        <!-- Literally Canvas -->
+        <script src="assets/js/literallycanvas.js"></script>
+    </head>
+    
+    <body>
+        <div id="body">
+            <div id="main"></div>
+            <div id="players"><h3>Current Players:</h3></div>
+            <!-- canvas widget -->
+            <div id="drawing" class="my-drawing"></div>
+        </div>
+
+        <!-- initialize canvas -->
+        <script>
+            LC.init(
+                document.getElementsByClassName('my-drawing')[0],
+                {imageURLPrefix: 'assets/images'}
+            );
+        </script>
+        
+        <!-- my script -->
+        <script>
+            var main = document.getElementById('main');
+            var title = document.createElement('h2');
+            var t = document.createTextNode('Welcome!'); 
+            title.appendChild(t);
+            main.appendChild(title);
+            
+            var drawing = document.getElementById('drawing');
+            var title2 = document.createElement('h3');
+            var t2 = document.createTextNode('Here is what the drawing board will look like.'); 
+            title2.appendChild(t2);
+            drawing.insertBefore(title2, drawing.firstChild);           
+        </script>
+    </body> 
+</html>

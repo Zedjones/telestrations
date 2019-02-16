@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Player 1 (WIP)</title>
+        <link rel="stylesheet" href="">
+        <!-- SOURCE!! : http://literallycanvas.com/index.html open source drawing board code -->
+        
+        <!-- stylesheet -->
+        <link href="assets/css/literallycanvas.css" rel="stylesheet">
+
+        <!-- dependency: React.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-with-addons.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
+
+        <!-- Literally Canvas -->
+        <script src="assets/js/literallycanvas.js"></script>
+    </head>
+    
+    <body>
+        <div id="main"></div>
+        <!-- where the widget goes. you can do CSS to it. -->
+        <!-- note: as of 0.4.13, you cannot use 'literally' as the class name.sorry about that. -->
+        <div class="my-drawing"></div>
+
+        <!-- kick it off -->
+        <script>
+            LC.init(
+                document.getElementsByClassName('my-drawing')[0],
+                {imageURLPrefix: 'assets/images'}
+            );
+        </script>
+        
+        <!-- begin my code -->
+        <script>
+            var counter = 1;
+            
+            function newRound(){
+                var main = document.getElementById('main');
+                var title = document.createElement('h2');
+                var t = document.createTextNode('Round ' + counter); 
+                title.appendChild(t);
+                main.appendChild(title);
+                counter++;
+            }
+            newRound();
+        </script>
+    </body> 
+</html>
