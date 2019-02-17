@@ -31,8 +31,8 @@
         <nav class="indigo lighten-2" role="navigation">
             <div class="nav-wrapper container"><a id="logo-container" class="brand-logo">Telestrations</a>
                 <!-- nav -->
-                <ul class="right hide-on-med-and-down">
-                    <li><a class="indigo darken-1 waves-effect waves-light btn modal-trigger" href="#modal1">Settings</a></li>
+                <ul class="right">
+                    <li><a {{if ne index . "id" 1}}style="display: none;"{{end}} class="indigo darken-1 waves-effect waves-light btn modal-trigger" href="#modal1">Settings</a></li>
                     <!-- modal -->
                     <div id="modal1" class="modal">
                         <div class="modal-content grey-text text-darken-2">
@@ -45,7 +45,7 @@
                                     <option value="60">60</option>
                                     <option value="90">90</option>
                                     <option value="120">120</option>
-                                    <option value="0">No Limit</option>
+                                    <option value="-1">No Limit</option>
                                 </select>
                             </div>  
                             <!-- difficulty settings -->
@@ -77,11 +77,6 @@
                         </div>
                     </div>
                 </ul>
-                <!-- mobile nav -->
-                <ul id="nav-mobile" class="sidenav">
-                    <li><a>Settings</a></li>
-                </ul>
-                <a data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             </div>
         </nav>
         
@@ -172,7 +167,7 @@
             function save(){
                 var time = $('#mySelect').val();
                 if(time == null){
-                    time = 0;
+                    time = -1;
                 }
                 var difficulty = $("input[name='group1']:checked").val();
                 var obj = {"time": time, 
