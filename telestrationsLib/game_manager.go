@@ -145,6 +145,9 @@ func (gm GameState) gmStartTimer() {
 		for gm.TimeLeft > 0 {
 			time.Sleep(time.Second)
 			gm.TimeLeft--
+			if !gm.AllPlayersDone() {
+				gm.TimeLeft = 0
+			}
 		}
 	}
 	gm.Round++

@@ -68,6 +68,8 @@ func main() {
 	e.GET("/getTime", getTime)
 	e.GET("/drawPage", drawPage)
 	e.POST("/startGame", startGame)
+	e.GET("/checkForStart", checkForStart)
+	e.POST("/submit", submit)
 	e.Start(":1234")
 }
 
@@ -169,4 +171,11 @@ func checkForStart(c echo.Context) error {
 	} else {
 		return c.NoContent(http.StatusForbidden)
 	}
+}
+
+func submit(c echo.Context) error {
+	// decode json obj
+	// store data in databse
+	// update player state
+	return c.NoContent(http.StatusOK)
 }
