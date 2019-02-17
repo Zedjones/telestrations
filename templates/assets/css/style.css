@@ -1,26 +1,28 @@
-/* Custom Stylesheet */
-/**
- * Use this file to override Materialize files so you can update
- * the core Materialize files in the future
- *
- * Made By MaterializeCSS.com
- */
+/* custom stylesheet */
 
 /* some materialize body styles */
 .icon-block .section .container .row{
     padding: 0!important;
 }
+
 .players{
-    padding-left: 30px;
+    padding-right: 60px;
 }
+
 .icon-block .material-icons{
 	font-size: inherit;
 }
+
 #modal2{ 
     width: 90% !important; 
     height: 100% !important; 
     max-height: 85% !important;
 }
+
 #modal2 img{
     max-width: 95%;
+}
+
+.modal{
+    padding: 50px !important;
 }
