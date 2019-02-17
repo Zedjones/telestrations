@@ -77,13 +77,15 @@ func drawPage(c echo.Context) error {
 }
 
 func index(c echo.Context) error {
-	_, err := c.Cookie("id")
+	id, err := c.Cookie("id")
 	if err != nil {
 		return c.Redirect(http.StatusFound, "/login")
 	}
 	data := make(map[string]interface{})
 	data["colorMap"] = colorMap
 	data["players"] = gameManager.GMGetPlayersAsArray()
+	data["id"] = id.Value
+	fmt.Println(data["players"])
 	return c.Render(http.StatusOK, "start.html", data)
 }
 

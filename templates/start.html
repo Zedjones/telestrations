@@ -109,9 +109,10 @@
                             <h5 class="center">Current Players:</h5>
                             <p class="light" id="players">
                                 {{range $ind, $val := index . "players"}}
-                                    {{if eq $ind 1}}
-                                        <i class="material-icons">star</i>{{$val.name}} <i class="material-icons">brightness_1</i>
+                                    {{if eq $ind 0}}
+                                        <i class="material-icons">star</i>{{$val.Name}} <i class="material-icons">brightness_1</i>
                                     {{else}}
+                                        {$val.name}} <i class="material-icons">brightness_1</i>
                                     {{end}}
                                 {{end}}
                             </p>
