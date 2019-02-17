@@ -167,7 +167,11 @@
             function toSVG(){
                 var svgString = lc.getSVGString();
                 console.log(svgString);
-            }  
+            } 
+            
+            function tempFunction(json, status, ajaxreq) {
+                continue
+            }
             
             // save settings
             function save(){
@@ -188,6 +192,13 @@
             $(document).ready(function(){
                 var playersPPG = document.getElementById('players');
             });
+
+            $.ajax({
+                type: "GET",
+                url: "/getPlayers",
+                dataType: "json",
+                success: tempFunction
+            })
         </script>
     </body> 
 </html>
