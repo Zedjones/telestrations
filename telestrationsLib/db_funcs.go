@@ -35,7 +35,7 @@ const connStr = "postgres://zedjones:password@localhost/telestrations?sslmode=di
 const createUserStr = "INSERT INTO \"user\" (name) VALUES ($1)"
 const getUserStr = "SELECT id, name FROM \"user\" WHERE id = $1"
 const resetIncStr = "ALTER SEQUENCE user_id_seq RESTART with 1"
-const getLastUser = "SELECT id, name FROM \"user\""
+const getLastUser = "SELECT id, name FROM \"user\" ORDER BY id DESC"
 
 const insertPictureStr = "INSERT INTO picture (user_id, svg, round) VALUES ($1, $2, $3)"
 const getPictureStr = "SELECT user_id, svg, round FROM picture " +
