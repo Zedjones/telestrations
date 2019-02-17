@@ -16,3 +16,11 @@
 .icon-block .material-icons{
 	font-size: inherit;
 }
+#modal2{ 
+    width: 90% !important; 
+    height: 100% !important; 
+    max-height: 85% !important;
+}
+#modal2 img{
+    max-width: 95%;
+}

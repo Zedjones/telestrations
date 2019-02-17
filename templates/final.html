@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Telestrations</title>
+        <!-- favicon -->
+        <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+        <link rel="manifest" href="assets/images/site.webmanifest">
+        <link rel="mask-icon" href="assets/images/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        
+        <!-- materialize.css-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+        <!-- dependency: React.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-with-addons.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
+        
+        <!-- Literally Canvas SOURCE : http://literallycanvas.com/index.html open source drawing board code -->
+        <script src="assets/js/literallycanvas.js"></script>
+        <link href="assets/css/literallycanvas.css" rel="stylesheet">
+    </head>
+    
+    <body>
+        <!-- header -->
+        <nav class="indigo lighten-2" role="navigation">
+            <div class="nav-wrapper container"><a id="logo-container" class="brand-logo">Telestrations</a>
+                <!-- nav -->
+                <ul class="right hide-on-med-and-down">
+                    <a href="start.html" class="indigo darken-1 waves-effect waves-light btn modal-trigger">New Game</a>
+                </ul>
+                <!-- mobile nav -->
+                <ul id="nav-mobile" class="sidenav">
+                    <li><a href="start.html">New Game</a></li>
+                </ul>
+                <a data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            </div>
+        </nav>
+        
+        <!-- top info -->
+        <div class="section no-pad-bot no-pad-top" id="index-banner">
+            <div class="container">
+                <h3 class="header center deep-purple-text text-lighten-1">Final Results</h3>
+                <div class="row center">
+                    <h6 class="header col s12 light">Click a player to see their compendium</h6>
+                </div>
+            </div>
+        </div>
+        
+        <!-- center info -->
+        <div class="center light" id="players">
+            <li><a class="indigo darken-1 waves-effect waves-light btn modal-trigger" href="#modal2">Player 1</a></li>
+            <!-- modal -->
+            <div id="modal2" class="modal">
+                <div class="modal-content grey-text text-darken-2">
+                    <!-- info card -->
+                    <div class="card">
+                        <div class="card-content">
+                            <p>Player 1</p>
+                        </div>
+                        <div class="card-tabs">
+                            <ul class="tabs tabs-fixed-width">
+                            <li class="tab"><a class="active" href="#test1">Drawing 1</a></li>
+                            <li class="tab"><a href="#test2">Guess 1</a></li>
+                            <li class="tab"><a href="#test3">Drawing 2</a></li>
+                            <li class="tab"><a href="#test4">Guess 2</a></li>
+                            </ul>
+                        </div>
+                        <div class="card-content grey lighten-4">
+                            <div id="test1"><img class="activator" src="assets/images/test.png"></div>
+                            <div id="test2">Test 2</div>
+                            <div id="test3">Test 3</div>
+                            <div id="test4">Test 4</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="modal-close waves-effect waves-light btn-flat">Close</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- materialize script -->
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="assets/js/materialize.js"></script>
+        <script src="assets/js/init.js"></script>
+
+        <!-- other js -->
+        <script>
+            // load players
+            $(document).ready(function(){
+                var playersPPG = document.getElementById('players');
+            });
+        </script>
+    </body> 
+</html>

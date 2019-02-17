@@ -1,0 +1,20 @@
+login.html
+
+start.html
+    - settings and start game button only available to leader
+    - start game button replaced with a "waiting for leader" type display
+    - load and display all players, leader with a "star" icon next to them
+    - display all players colors next to them "brightness_1" icon colored
+    
+    * no time limit should be -1 ? (-cory)
+
+game.html
+    - round counter
+
+guess.html
+    - round counter
+
+final.html
+    - new game button only available to leader
+    - change "new game" button to have a pop-up to ask if you are sure, as it should probably kick all players back to home page when leader clicks
+    - 
