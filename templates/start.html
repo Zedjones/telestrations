@@ -216,9 +216,12 @@
                     dataType: "json"
                 })
                 .success(function(data){
-                    if(data['started'] == true){
+                    if(data == 200){
                         window.location.href = "/drawPage";
                     }
+                    // if(data['started'] == true){
+                    //     window.location.href = "/drawPage";
+                    // }
                 })          
             }, 500);
             
