@@ -29,17 +29,17 @@ const (
 )
 
 type Player struct {
-	id    int
-	name  string
-	state playerState
+	ID    int
+	Name  string
+	State playerState
 }
 
 type GameState struct {
 	Round       int
 	TimeLeft    int
 	AllPlayers  map[int]Player
-	state       gameState
-	rState      roundState
+	State       gameState
+	RState      roundState
 	NumRounds   int
 	RoundLength int
 }
@@ -49,16 +49,16 @@ type GameState struct {
 func CreateGameState() *GameState {
 	gm := new(GameState)
 	gm.AllPlayers = make(map[int]Player)
-	gm.state = StateWaiting
+	gm.State = StateWaiting
 	return gm
 }
 
 func (gm GameState) GMAddPlayer(id int, name string) {
-	gm.AllPlayers[id] = Player{id: id, name: name, state: StateInLobby}
+	gm.AllPlayers[id] = Player{ID: id, Name: name, State: StateInLobby}
 }
 
 func (gm GameState) GMSetState(state gameState) {
-	gm.state = state
+	gm.State = state
 }
 
 func (gm GameState) GMSetRoundLength(roundTime int) {
@@ -73,7 +73,7 @@ func (gm GameState) GMGetPlayer(id int) *Player {
 func (gm GameState) GMGetPlayersByName(pname string) [](*Player) {
 	players := make([](*Player), 0)
 	for _, v := range gm.AllPlayers {
-		if v.name == pname {
+		if v.Name == pname {
 			players = append(players, &v)
 		}
 	}
@@ -91,7 +91,7 @@ func (gm GameState) GMGetPlayersAsArray() []Player {
 }
 
 func (gm GameState) GMStartGame() {
-	gm.state = StateProgress
+	gm.State = StateProgress
 	//TODO
 }
 
@@ -103,8 +103,8 @@ func (gm GameState) GMStartGame() {
 func (gm GameState) GMRoundStart() error {
 	gm.NumRounds = len(gm.AllPlayers)
 	if gm.Round > gm.NumRounds {
-		gm.rState = RoundWaiting
-		gm.state = StateFinished
+		gm.RState = RoundWaiting
+		gm.State = StateFinished
 		return errors.New("All Rounds Over")
 	}
 	go gm.gmStartTimer()
@@ -114,7 +114,7 @@ func (gm GameState) GMRoundStart() error {
 
 // Round Timer
 func (gm GameState) gmStartTimer() {
-	gm.rState = RoundProgress
+	gm.RState = RoundProgress
 	if gm.RoundLength == -1 { // for infinite time rounds
 		for !gm.AllPlayersDone() {
 			time.Sleep(time.Second)
@@ -127,13 +127,13 @@ func (gm GameState) gmStartTimer() {
 		}
 	}
 	gm.Round++
-	gm.rState = RoundWaiting
+	gm.RState = RoundWaiting
 }
 
 func (gm GameState) AllPlayersDone() bool {
 	var b bool = true
 	for _, v := range gm.AllPlayers {
-		if v.state == StateWorking {
+		if v.State == StateWorking {
 			b = false
 		}
 	}
@@ -143,9 +143,9 @@ func (gm GameState) AllPlayersDone() bool {
 // --- Player Functions ---
 
 func (p Player) PLSetState(st playerState) {
-	p.state = st
+	p.State = st
 }
 
 func (p Player) PLGetState() playerState {
-	return p.state
+	return p.State
 }

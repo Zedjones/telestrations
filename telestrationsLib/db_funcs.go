@@ -36,6 +36,7 @@ const createUserStr = "INSERT INTO \"user\" (name) VALUES ($1)"
 const getUserStr = "SELECT id, name FROM \"user\" WHERE id = $1"
 const resetIncStr = "ALTER SEQUENCE user_id_seq RESTART with 1"
 const getLastUser = "SELECT id, name FROM \"user\" ORDER BY id DESC"
+const deleteUsersStr = "DELETE FROM \"user\""
 
 const insertPictureStr = "INSERT INTO picture (user_id, svg, round) VALUES ($1, $2, $3)"
 const getPictureStr = "SELECT user_id, svg, round FROM picture " +
@@ -74,6 +75,13 @@ func AddUser(name string) int {
 		fmt.Println(err)
 	}
 	return users[0].ID
+}
+
+func DeleteAllUsers() {
+	db := Connect()
+	if _, err := db.Exec(deleteUsersStr); err != nil {
+		fmt.Println(err)
+	}
 }
 
 func GetName(user int) string {

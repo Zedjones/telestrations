@@ -108,7 +108,12 @@
                             <h2 class="center deep-purple-text text-lighten-2"><i class="material-icons">group</i></h2>
                             <h5 class="center">Current Players:</h5>
                             <p class="light" id="players">
-                                <i class="material-icons">star</i>Name <i class="material-icons">brightness_1</i>
+                                {{range $ind, $val := index . "players"}}
+                                    {{if eq $ind 1}}
+                                        <i class="material-icons">star</i>{{$val.name}} <i class="material-icons">brightness_1</i>
+                                    {{else}}
+                                    {{end}}
+                                {{end}}
                             </p>
                         </div>
                     </div>

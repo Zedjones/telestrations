@@ -30,7 +30,23 @@ type TemplateRenderer struct {
 
 var gameManager telestrationsLib.GameState
 
+var colorMap = map[int]string{
+	1:  "#ef9a9a",
+	2:  "#f48fb",
+	3:  "#ce93d8",
+	4:  "#b39ddb",
+	5:  "#9fa8da",
+	6:  "#90caf9",
+	7:  "#80deea",
+	8:  "#80cbc4",
+	9:  "#a5d6a7",
+	10: "#fff59d",
+	11: "#ffcc80",
+	12: "#bcaaa4"}
+
 func main() {
+	telestrationsLib.DeleteAllUsers()
+	go telestrationsLib.ResetInc()
 	gameManager = *telestrationsLib.CreateGameState()
 	e := echo.New()
 	renderer := &TemplateRenderer{
@@ -51,8 +67,12 @@ func (t *TemplateRenderer) Render(w io.Writer, name string, data interface{}, c 
 }
 
 func drawPage(c echo.Context) error {
+	val, err := c.Cookie("id")
+	if err != nil {
+		fmt.Println(err)
+	}
 	data := make(map[string]interface{})
-	data["id"] = 11
+	data["id"] = val.Value
 	return c.Render(http.StatusOK, "game.html", data)
 }
 
@@ -61,7 +81,10 @@ func index(c echo.Context) error {
 	if err != nil {
 		return c.Redirect(http.StatusFound, "/login")
 	}
-	return c.Render(http.StatusOK, "start.html", nil)
+	data := make(map[string]interface{})
+	data["colorMap"] = colorMap
+	data["players"] = gameManager.GMGetPlayersAsArray()
+	return c.Render(http.StatusOK, "start.html", data)
 }
 
 func login(c echo.Context) error {
