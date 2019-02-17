@@ -64,6 +64,7 @@ func main() {
 	e.GET("/login", login)
 	e.POST("/addUser", addUser)
 	e.GET("/getPlayers", getPlayers)
+	e.GET("/getTime", getTime)
 	e.Start(":1234")
 }
 
@@ -131,4 +132,8 @@ func getPlayers(c echo.Context) error {
 	players := gameManager.GMGetPlayersAsArray()
 	//fmt.Println(players)
 	return c.JSON(http.StatusOK, players)
+}
+
+func getTime(c echo.Context) error {
+	return c.JSON(http.StatusOK, gameManager.TimeLeft)
 }

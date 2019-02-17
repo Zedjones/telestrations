@@ -90,7 +90,18 @@
             </div>
             <div class="row center no-pad-bot">
                 <!-- if player is the leader, display start button -->
-                <a {{if ne (index . "id") "1"}}style="display: none;"{{end}} href="game.html" id="download-button" class="btn-large waves-effect waves-light deep-purple darken-1">Start Game</a>
+                <a {{if ne (index . "id") "1"}}style="display: none;"{{end}} href="#modalStart" id="download-button" class="btn-large waves-effect waves-light deep-purple darken-1">Start Game</a>
+                <!-- start game modal -->
+                <div id="modalStart" class="modal">
+                    <div class="modal-content">
+                        <h4>Are you sure you want to start?</h4>
+                        <p>Make sure all players are in before starting!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a onclick="startGame();" class="modal-close waves-effect waves-light btn-flat">Start Game</a>
+                        <a class="modal-close waves-effect waves-light btn-flat">Wait</a>
+                    </div>
+                </div>
                 <!-- otherwise, display "waiting for leader" -->
                 <h5 {{if eq (index . "id") "1"}}style="display: none;"{{end}} class="indigo-text text-darken-1">Waiting for leader to start the game<br><img src="assets/images/loadingDots.gif" alt="..."></h5>
             </div>
@@ -189,6 +200,11 @@
                 console.log(svgString);
             }
             
+            // starting the game button
+            function startGame(){
+                location: "game.html";
+            }
+            
             // save settings
             function save(){
                 var time = $('#mySelect').val();
@@ -203,6 +219,8 @@
                 req.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
                 req.send(JSON.stringify(obj));
             }
+            
+            // refresh the player list every second
             setInterval(function refreshing(){
                 $.ajax({
                     type: "GET",

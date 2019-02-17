@@ -4,10 +4,8 @@
         // side bar navigation (start.html)
         $('.sidenav').sidenav();
         
-        // modal (2 is from guess.html, 1 is from start.html)
-         $('#modal2').modal({
-            dismissible: true
-        });
+        // modal (1 is from start.html)
+        $('.modal').modal();
         $('#modal1').modal({
             dismissible: false
         });
