@@ -37,7 +37,7 @@
         <!-- top info  -->
         <div class="section no-pad-bot no-pad-top" id="index-banner">
             <div class="container">
-                <h4 class="header center customTitle text-darken-2">Your guess: </h4>
+                <h4 class="header center customTitle">Your guess: </h4>
                 <div class="center">
                     <a id="download-button" class="btn-large waves-effect waves-light customButton" onclick="submit();">Submit Guess</a>
                 </div>
@@ -91,7 +91,7 @@
                 //document.getElementsByClassName('customTitle')[0].style.color = obj[{{index . "id"}}];
                 //document.getElementsByClassName('customButton')[0].style.backgroundColor = obj[{{index . "id"}}];
 
-                // load canvas image
+                // load canvas image, see http://jsfiddle.net/Na6X5/
                 var img = new Image();          
                 img.src = "http://upload.wikimedia.org/wikipedia/commons/d/d2/Svg_example_square.svg";
                 var can = document.getElementById('canvas');
