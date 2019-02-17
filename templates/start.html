@@ -108,29 +108,33 @@
         </div>
         
         <!-- center info -->
-        <div class="container no-pad-top section row">
-            <!-- current players block -->
-            <div class="col s3 m3 players">
-                <div class="icon-block">
-                    <h2 class="center deep-purple-text text-lighten-2"><i class="material-icons">group</i></h2>
-                    <h5 class="center">Current Players:</h5>
-                    <p class="light" id="players">
-                        {{range $ind, $val := index . "players"}}
-                            {{if eq $ind 0}}
-                                <i class="material-icons">star</i> {{$val.Name}} <i style="color:crimson" class="material-icons">brightness_1</i></br>
-                            {{else}}
-                                {{$val.Name}} <i style="color:" class="material-icons">brightness_1</i></br>
-                            {{end}}
-                        {{end}}
-                    </p>
-                </div>
-            </div>
-            <!-- drawing board block -->
-            <div class="col s9 m9">
-                <div class="icon-block">
-                    <h2 class="center deep-purple-text text-lighten-2"><i class="material-icons">brush</i></h2>
-                    <h5 class="center">Here's what the drawing board will look like:</h5>
-                    <div id="drawing" class="my-drawing"></div>
+        <div class="container">
+            <div class="section">
+                <div class="row">
+                    <!-- current players block -->
+                    <div class="col s3 m3 players">
+                        <div class="icon-block">
+                            <h2 class="center deep-purple-text text-lighten-2"><i class="material-icons">group</i></h2>
+                            <h5 class="center">Current Players:</h5>
+                            <p class="light" id="players">
+                                {{range $ind, $val := index . "players"}}
+                                    {{if eq $ind 0}}
+                                        <i style="color:crimson" class="material-icons">star</i> {{$val.Name}} <i style="color:{{index $.colorMap $val.ID}}" class="material-icons">brightness_1</i></br>
+                                    {{else}}
+                                        {{$val.Name}} <i style="color:{{index $.colorMap $val.ID}}" class="material-icons">brightness_1</i></br>
+                                    {{end}}
+                                {{end}}
+                            </p>
+                        </div>
+                    </div>
+                    <!-- drawing board block -->
+                    <div class="col s9 m9">
+                        <div class="icon-block">
+                            <h2 class="center deep-purple-text text-lighten-2"><i class="material-icons">brush</i></h2>
+                            <h5 class="center">Here's what the drawing board will look like:</h5>
+                            <div id="drawing" class="my-drawing"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -171,6 +175,20 @@
 
         <!-- other js -->
         <script>
+            var obj = {
+                1: "#ef9a9a",
+                2: "#f48fb",
+                3: "#ce93d8",
+                4: "#b39ddb",
+                5: "#9fa8da",
+                6: "#90caf9",
+                7: "#80deea",
+                8: "#80cbc4",
+                9: "#a5d6a7",
+                10: "#fff59d",
+                11: "#ffcc80",
+                12: "#bcaaa4"
+            };
             // canvas code
             // initialize canvas
             var lc = LC.init(
@@ -218,7 +236,7 @@
                         if(data[i].ID == 1){ 
                             playersPPG.innerHTML += "<i style='color:crimson' class='material-icons'>star</i> ";
                         }
-                        playersPPG.innerHTML += data[i].Name + " <i style='color:' class='material-icons'>brightness_1</i><br>";
+                        playersPPG.innerHTML += data[i].Name + " <i style='color:" + colorMap[data[i].ID + "' class='material-icons'>brightness_1</i><br>";
                     }
                 })          
             }, 1000);

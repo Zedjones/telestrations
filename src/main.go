@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/json"
+	"encoding/gob"
 	"fmt"
 	"html/template"
 	"io"
@@ -10,6 +10,7 @@ import (
 
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/middleware"
 	"github.com/zedjones/telestrations/telestrationsLib"
 )
@@ -31,7 +32,6 @@ type TemplateRenderer struct {
 }
 
 var gameManager telestrationsLib.GameState
-var session *sessions.CookieStore
 
 var colorMap = map[int]string{
 	1:  "#ef9a9a",
@@ -55,15 +55,17 @@ func main() {
 	renderer := &TemplateRenderer{
 		templates: template.Must(template.ParseGlob("../templates/*.html")),
 	}
-	session = sessions.NewCookieStore([]byte("secret"))
+	gob.Register(&telestrationsLib.Player{})
 	e.Renderer = renderer
 	e.Use(middleware.Logger())
+	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 	e.Static("/", "../templates/")
 	e.GET("/game", drawPage)
 	e.GET("/", index)
 	e.GET("/login", login)
 	e.POST("/addUser", addUser)
 	e.GET("/getPlayers", getPlayers)
+	e.GET("/getTime", getTime)
 	e.Start(":1234")
 }
 
@@ -83,16 +85,17 @@ func drawPage(c echo.Context) error {
 
 func index(c echo.Context) error {
 	fmt.Println("index")
-	sess, _ := session.Get(c.Request(), "session")
-	// sess.Options.MaxAge = -1
+	sess, _ := session.Get("session", c)
+	// sess.Options.MaxAge =
 	// return nil
 	id, _ := sess.Values["id"]
 	if id == nil {
 		fmt.Println(id)
 		return c.Redirect(http.StatusFound, "/login")
 	}
-	var aid telestrationsLib.Player
-	json.Unmarshal(id.([]byte), aid)
+	var aid *telestrationsLib.Player
+	//json.Unmarshal(id.([]byte), aid)
+	aid = id.(*telestrationsLib.Player)
 	if !gameManager.GMPlayerExists(aid.ID) {
 		gameManager.GMAddPlayer(aid.ID, aid.Name)
 	}
@@ -106,7 +109,7 @@ func index(c echo.Context) error {
 
 func login(c echo.Context) error {
 	fmt.Println("login")
-	sess, _ := session.Get(c.Request(), "session")
+	sess, _ := session.Get("session", c)
 	id, _ := sess.Values["id"]
 	if id != nil {
 		c.Redirect(http.StatusFound, "/")
@@ -119,8 +122,8 @@ func addUser(c echo.Context) error {
 	name := c.FormValue("name")
 	id := telestrationsLib.AddUser(name)
 	gameManager.GMAddPlayer(id, name)
-	sess, _ := session.Get(c.Request(), "session")
-	sess.Values["id"], _ = json.Marshal(*gameManager.GMGetPlayer(id)) //strconv.Itoa(id)
+	sess, _ := session.Get("session", c)
+	sess.Values["id"] = *gameManager.GMGetPlayer(id) //strconv.Itoa(id)
 	sess.Options.MaxAge = 99999
 	fmt.Println(sess.Values["id"])
 	sess.Save(c.Request(), c.Response())
@@ -131,4 +134,8 @@ func getPlayers(c echo.Context) error {
 	players := gameManager.GMGetPlayersAsArray()
 	//fmt.Println(players)
 	return c.JSON(http.StatusOK, players)
+}
+
+func getTime(c echo.Context) error {
+	return c.JSON(http.StatusOK, gameManager.TimeLeft)
 }
