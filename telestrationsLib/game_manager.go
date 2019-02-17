@@ -1,5 +1,10 @@
 package telestrationsLib
 
+import (
+	"errors"
+	"time"
+)
+
 type playerState int
 
 const (
@@ -11,9 +16,10 @@ const (
 type gameState int
 
 const (
-	StateProgress gameState = 0
-	StateEmpty    gameState = 1
-	StateWaiting  gameState = 2
+	StateProgress gameState = 0 // round in progress
+	StateEmpty    gameState = 1 // has not started
+	StateWaiting  gameState = 2 // in between rounds
+	StateFinished gameState = 3 // all rounds over
 )
 
 type Player struct {
@@ -23,16 +29,21 @@ type Player struct {
 }
 
 type GameState struct {
-	Round      int
-	TimeLeft   int
-	AllPlayers map[int]Player
-	state      gameState
+	Round       int
+	TimeLeft    int
+	AllPlayers  map[int]Player
+	state       gameState
+	NumRounds   int
+	RoundLength int
 }
 
+// --- GameState functions ---
+
 func CreateGameState() *GameState {
-	gameState := new(GameState)
-	gameState.AllPlayers = make(map[int]Player)
-	return gameState
+	gm := new(GameState)
+	gm.AllPlayers = make(map[int]Player)
+	gm.state = StateEmpty
+	return gm
 }
 
 func (gm GameState) GMAddPlayer(id int, name string) {
@@ -41,6 +52,10 @@ func (gm GameState) GMAddPlayer(id int, name string) {
 
 func (gm GameState) GMSetState(state gameState) {
 	gm.state = state
+}
+
+func (gm GameState) GMSetRoundLength(roundTime int) {
+	gm.RoundLength = roundTime
 }
 
 func (gm GameState) GMGetPlayer(id int) *Player {
@@ -59,4 +74,55 @@ func (gm GameState) GMGetPlayersByName(pname string) [](*Player) {
 
 }
 
+// sets GameState instance to finished
+func (gm GameState) gmFinished() {
+	gm.state = StateFinished
+}
+
+// Starts a new Round of the game
+// Returns an error if all rounds completed
+// returns nil otherwise
+// spawns timer routine
+// param roundTime the length of the round
+func (gm GameState) GMRoundStart() error {
+	gm.NumRounds = len(gm.AllPlayers)
+	if gm.Round > gm.NumRounds {
+		gm.gmFinished()
+		return errors.New("All Rounds Over")
+	}
+	go gm.gmStartTimer()
+	return nil
+
+}
+
 // Round Timer
+func (gm GameState) gmStartTimer() {
+	gm.state = StateProgress
+	if gm.RoundLength == -1 {
+
+	} else {
+		gm.TimeLeft = gm.RoundLength
+		for gm.TimeLeft > 0 {
+			time.Sleep(time.Second)
+			gm.TimeLeft--
+		}
+	}
+	gm.Round++
+	gm.state = StateWaiting
+}
+
+func (gm GameState) allPlayersDone() bool {
+	var b bool = true
+	for _, v := range gm.AllPlayers {
+		if v.state == StateWorking {
+			b = false
+		}
+	}
+	return b
+}
+
+// --- Player Functions ---
+
+func (p Player) PLSetState(st playerState) {
+	p.state = st
+}
