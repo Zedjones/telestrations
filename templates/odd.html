@@ -40,26 +40,16 @@
         <!-- top info -->
         <div class="section no-pad-bot no-pad-top" id="index-banner">
             <div class="container">
-                <h4 class="header center customTitle">Your word: {{index . "word"}}</h4>
+                <h4 class="header center customTitle">Your word: </h4>
             </div>
         </div>
         
         <!-- center info -->
-        <div class="container section row">
-            <!-- drawing board block -->
-            <div class="col s12 m12">
-                <div class="icon-block">
-                    <div id="drawing" class="my-drawing"></div>
-                    <div class="row center no-pad-bot">
-                        <a href="#modal1" class="indigo darken-1 waves-effect waves-light btn modal-trigger" onclick="return submit();">Submit Drawing</a>
-                    </div>
-                </div>
-            </div>
-            <!-- waiting for players modal -->
-            <div style="overflow:hidden" id="modal1" class="modal">
-                <div class="modal-content grey-text text-darken-2">
-                    <h4>Waiting on players:</h4>
-                    <p id="players"></p>
+        <div class="section no-pad-bot no-pad-top" id="index-banner">
+            <div class="container">
+                <h6 style="padding-bottom:20px;" class="header center customTitle">Since there is an odd number of players, you won't be drawing your word first. Press ready when you are ready to pass the word and recieve your first word to draw.</h6>
+                <div class="row center">
+                    <a id="download-button" class="btn-large waves-effect waves-light customButton" onclick="submit();">Ready</a>
                 </div>
             </div>
         </div>
@@ -75,51 +65,11 @@
         
         <!-- other js -->
         <script>
-            // canvas code
-            // initialize canvas
-            var lc = LC.init(
-                document.getElementsByClassName('my-drawing')[0],
-                {imageURLPrefix: 'assets/images'}
-            );
-            // convert canvas to SVG
-            function toSVG(){
-                var svgString = lc.getSVGString();
-                return svgString;
-            }
             // submit drawing button
             function submit(){
-                var svgString = toSVG();
-                var obj = {"SVG": svgString};
-                var req = new XMLHttpRequest();
-                req.open('POST', '/', true);
-                req.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-                req.send(JSON.stringify(obj));
-                return true;
+                console.log('submit');
+                // pop-up, check if other players are finished otherwise pls wait msg
             }
-            
-            // refresh the waiting on player list every half second
-            setInterval(function refreshing(){
-                $.ajax({
-                    type: "GET",
-                    url: "/getPlayers",
-                    dataType: "json"
-                })
-                .success(function(data){
-                    console.log(data);
-                    var playersPPG = document.getElementById('players');
-                    playersPPG.innerHTML = "";
-                    var count = 0;
-                    for(var i = 0; i < data.length; i++){
-                        if(data[i].Ready == false){ 
-                            playersPPG.innerHTML += data[i].Name + "<br>";
-                            count++;
-                        }
-                    }
-                    if(count == 0){
-                        window.location.href = "/drawPage";
-                    }
-                })          
-            }, 500);
             
             // make changes based on user
             // colors based on user
