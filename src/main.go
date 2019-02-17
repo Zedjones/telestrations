@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/json"
+	"encoding/gob"
 	"fmt"
 	"html/template"
 	"io"
@@ -55,6 +55,7 @@ func main() {
 	renderer := &TemplateRenderer{
 		templates: template.Must(template.ParseGlob("../templates/*.html")),
 	}
+	gob.Register(&telestrationsLib.Player{})
 	e.Renderer = renderer
 	e.Use(middleware.Logger())
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
@@ -92,8 +93,9 @@ func index(c echo.Context) error {
 		fmt.Println(id)
 		return c.Redirect(http.StatusFound, "/login")
 	}
-	var aid telestrationsLib.Player
-	json.Unmarshal(id.([]byte), aid)
+	var aid *telestrationsLib.Player
+	//json.Unmarshal(id.([]byte), aid)
+	aid = id.(*telestrationsLib.Player)
 	if !gameManager.GMPlayerExists(aid.ID) {
 		gameManager.GMAddPlayer(aid.ID, aid.Name)
 	}
@@ -121,7 +123,7 @@ func addUser(c echo.Context) error {
 	id := telestrationsLib.AddUser(name)
 	gameManager.GMAddPlayer(id, name)
 	sess, _ := session.Get("session", c)
-	sess.Values["id"], _ = json.Marshal(*gameManager.GMGetPlayer(id)) //strconv.Itoa(id)
+	sess.Values["id"] = *gameManager.GMGetPlayer(id) //strconv.Itoa(id)
 	sess.Options.MaxAge = 99999
 	fmt.Println(sess.Values["id"])
 	sess.Save(c.Request(), c.Response())
