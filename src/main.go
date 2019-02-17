@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"io"
@@ -81,24 +82,33 @@ func drawPage(c echo.Context) error {
 }
 
 func index(c echo.Context) error {
+	fmt.Println("index")
 	sess, _ := session.Get("session", c)
-	id, err := sess.Values["id"]
-	if !err {
+	// sess.Options.MaxAge =
+	// return nil
+	id, _ := sess.Values["id"]
+	if id == nil {
+		fmt.Println(id)
 		return c.Redirect(http.StatusFound, "/login")
+	}
+	var aid telestrationsLib.Player
+	json.Unmarshal(id.([]byte), aid)
+	if !gameManager.GMPlayerExists(aid.ID) {
+		gameManager.GMAddPlayer(aid.ID, aid.Name)
 	}
 	data := make(map[string]interface{})
 	data["colorMap"] = colorMap
 	data["players"] = gameManager.GMGetPlayersAsArray()
-	data["id"] = id
-	fmt.Println(data["players"])
+	data["id"] = strconv.Itoa(aid.ID)
+	//fmt.Println(data["players"])
 	return c.Render(http.StatusOK, "start.html", data)
 }
 
 func login(c echo.Context) error {
 	fmt.Println("login")
 	sess, _ := session.Get("session", c)
-	_, err := sess.Values["id"]
-	if err {
+	id, _ := sess.Values["id"]
+	if id != nil {
 		c.Redirect(http.StatusFound, "/")
 	}
 	return c.Render(http.StatusOK, "login.html", nil)
@@ -110,13 +120,15 @@ func addUser(c echo.Context) error {
 	id := telestrationsLib.AddUser(name)
 	gameManager.GMAddPlayer(id, name)
 	sess, _ := session.Get("session", c)
-	sess.Values["id"] = strconv.Itoa(id)
+	sess.Values["id"], _ = json.Marshal(*gameManager.GMGetPlayer(id)) //strconv.Itoa(id)
+	sess.Options.MaxAge = 99999
+	fmt.Println(sess.Values["id"])
 	sess.Save(c.Request(), c.Response())
 	return c.Redirect(http.StatusFound, "/")
 }
 
 func getPlayers(c echo.Context) error {
 	players := gameManager.GMGetPlayersAsArray()
-	fmt.Println(players)
+	//fmt.Println(players)
 	return c.JSON(http.StatusOK, players)
 }

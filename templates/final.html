@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Telestrations</title>
+        
         <!-- favicon -->
         <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
@@ -13,7 +14,7 @@
         <meta name="theme-color" content="#ffffff">
         
         <!-- custom scrollbar SOURCE: http://manos.malihu.gr/jquery-custom-content-scroller/ -->
-        <link rel="stylesheet" href="assets/css/jquery.mCustomScrollbar.css" />
+        <link rel="stylesheet" href="assets/css/jquery.mCustomScrollbar.css"/>
         
         <!-- materialize.css-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -57,7 +58,7 @@
         
         <!-- center info -->
         <div class="center light" id="players">
-            <ul>
+            <ul id="everything">
                 <li><a class="indigo darken-1 waves-effect waves-light btn modal-trigger" href="#modal2">Player 1</a></li>
                 <!-- modal -->
                 <div id="modal2" class="modal mCustomScrollbar" data-mcs-theme="dark">
@@ -101,10 +102,37 @@
 
         <!-- other js -->
         <script>
-            // load players
-            $(document).ready(function(){
-                var playersPPG = document.getElementById('players');
-            });
+            // create a modal for each player
+            // for(var i = 1; rounds; i++)
+                // call createModals(i, json data, rounds)
+            // load players modals
+            function createModals(num, data, rounds){
+                var player = data[num].Name;
+                var origWord = data[num].Original;
+                
+                var modal = '<li><a class="indigo darken-1 waves-effect waves-light btn modal-trigger" href="#modal';
+                modal += num + '">' + player;
+                modal += '</a></li><div id="modal' + num + '" class="modal mCustomScrollbar" data-mcs-theme="dark"><div class="modal-content grey-text text-darken-2"><div class="card"><div class="card-content"><p>';
+                modal += player + 's original word was ' + origWord;
+                modal += '</p></div><div class="card-tabs"><ul class="tabs tabs-fixed-width">';
+                // loop thru rounds for each tab
+                for(var i = 1; i <= rounds; i++){
+                    modal += '<li class="tab"><a ';
+                    if(i == 1){
+                        modal += 'class="active" ';
+                    }
+                    modal += 'href="#test' + i + '">Drawing ' + i + '</a></li>';
+                    modal += '<li class="tab"><a href="#test' + (i + 1) + '>Guess '+ i + '</a></li>';
+                }
+                modal += '</ul></div><div class="card-content grey lighten-4">';
+                // loop thru rounds for each image / guess
+                for(var i = 0; i < rounds; i += 2){
+                    modal += '<div id="test' + i + '">' + data[num].SVG[i] + '</div>';
+                    modal += '<div id="test' + (i + 1) + '">' + data[num].Guess[i] + '</div>';
+                }
+                modal += '</div></div><div class="modal-footer"><a class="modal-close waves-effect waves-light btn-flat">Close</a></div></div></div>';
+                document.getElementById('everything').innerHTML += modal;
+            }
         </script>
     </body> 
 </html>

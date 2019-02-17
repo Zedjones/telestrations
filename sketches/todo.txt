@@ -1,22 +1,24 @@
 login.html
 
 start.html
-    - settings and start game button only available to leader
-    - start game button replaced with a "waiting for leader" type display
-    - load and display all players, leader with a "star" icon next to them
-    - display all players colors next to them "brightness_1" icon colored
-    
-    - sizes of player icons bigger
+    - color the player icons
+    - make sure order of json players doesnt randomly jump around
 
 game.html
     - round counter
+    - timer
+    - kick players to guess when time runs out
 
 guess.html
     - round counter
+    - timer
+    - kick players to game when time runs out
 
 final.html
     - new game button only available to leader
     - change "new game" button to have a pop-up to ask if you are sure, as it will kick all players back to home page when leader clicks
     
-other stuff
+not important stuff
     - starting drawing pen color for each user is their color
+    - neat animation for timer like an hourglass or clock
+    - warn players when time is low like turn color red or something
