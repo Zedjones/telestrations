@@ -35,7 +35,7 @@ var gameManager telestrationsLib.GameState
 
 var colorMap = map[int]string{
 	1:  "#ef9a9a",
-	2:  "#f48fb",
+	2:  "#f48fb1",
 	3:  "#ce93d8",
 	4:  "#b39ddb",
 	5:  "#9fa8da",
