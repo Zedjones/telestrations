@@ -82,10 +82,9 @@ func (gm GameState) GMGetPlayersByName(pname string) [](*Player) {
 }
 
 func (gm GameState) GMGetPlayersAsArray() []Player {
-	size := len(gm.AllPlayers)
-	players := make([]Player, size)
-	for i := 0; i < size; i++ {
-		players[i] = gm.AllPlayers[i]
+	players := []Player{}
+	for _, player := range gm.AllPlayers {
+		players = append(players, player)
 	}
 	return players
 }

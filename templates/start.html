@@ -32,7 +32,7 @@
             <div class="nav-wrapper container"><a id="logo-container" class="brand-logo">Telestrations</a>
                 <!-- nav -->
                 <ul class="right">
-                    <li><a {{if ne index . "id" 1}}style="display: none;"{{end}} class="indigo darken-1 waves-effect waves-light btn modal-trigger" href="#modal1">Settings</a></li>
+                    <li><a {{if ne (index . "id") "1"}}style="display: none;"{{end}} class="indigo darken-1 waves-effect waves-light btn modal-trigger" href="#modal1">Settings</a></li>
                     <!-- modal -->
                     <div id="modal1" class="modal">
                         <div class="modal-content grey-text text-darken-2">
@@ -105,9 +105,9 @@
                             <p class="light" id="players">
                                 {{range $ind, $val := index . "players"}}
                                     {{if eq $ind 0}}
-                                        <i class="material-icons">star</i>{{$val.Name}} <i class="material-icons">brightness_1</i>
+                                        <i class="material-icons">star</i>{{$val.Name}} <i class="material-icons">brightness_1</i></br>
                                     {{else}}
-                                        {$val.name}} <i class="material-icons">brightness_1</i>
+                                        {{$val.Name}} <i class="material-icons">brightness_1</i></br>
                                     {{end}}
                                 {{end}}
                             </p>
