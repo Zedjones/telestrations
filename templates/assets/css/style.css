@@ -13,16 +13,20 @@
 	font-size: inherit;
 }
 
-#modal2{ 
+.modalFinal{ 
     width: 90% !important; 
     height: 100% !important; 
     max-height: 85% !important;
 }
 
-#modal2 img{
+.modal svg, img{
     max-width: 95%;
 }
 
 .modal{
+    padding: 6px !important;
+}
+
+#modal1{
     padding: 50px !important;
 }
