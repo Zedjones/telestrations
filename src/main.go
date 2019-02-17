@@ -31,6 +31,16 @@ type TemplateRenderer struct {
 	templates *template.Template
 }
 
+type GameSettings struct {
+	Time       int    `json:"time"`
+	Difficulty string `json:"difficulty"`
+}
+
+type submission struct {
+	guess string
+	svg   string
+}
+
 var gameManager telestrationsLib.GameState
 
 var colorMap = map[int]string{
@@ -68,6 +78,8 @@ func main() {
 	e.GET("/getTime", getTime)
 	e.GET("/drawPage", drawPage)
 	e.POST("/startGame", startGame)
+	e.GET("/checkForStart", checkForStart)
+	e.POST("/submit", submit)
 	e.Start(":1234")
 }
 
@@ -80,7 +92,15 @@ func drawPage(c echo.Context) error {
 	id, _ := sess.Values["id"]
 	var aid *telestrationsLib.Player
 	aid = id.(*telestrationsLib.Player)
-	oddeven := len(gameManager.AllPlayers) % 2
+	if gameManager.Round == 0 {
+		startNum := len(gameManager.AllPlayers) % 2
+		if startNum == 1 {
+			// odd start page
+		} else {
+			// even start page
+		}
+	}
+	oddeven := gameManager.Round % 2
 	if oddeven == 1 {
 		// odd page
 	} else {
@@ -88,6 +108,7 @@ func drawPage(c echo.Context) error {
 	}
 	data := make(map[string]interface{})
 	data["id"] = strconv.Itoa(aid.ID)
+	data["word"] = telestrationsLib.GetStartingWord(aid.ID)
 	return c.Render(http.StatusOK, "game.html", data)
 }
 
@@ -101,7 +122,6 @@ func index(c echo.Context) error {
 		return c.Redirect(http.StatusFound, "/login")
 	}
 	var aid *telestrationsLib.Player
-	//json.Unmarshal(id.([]byte), aid)
 	aid = id.(*telestrationsLib.Player)
 	fmt.Println(gameManager.GMPlayerExists(aid.ID))
 	if !gameManager.GMPlayerExists(aid.ID) {
@@ -161,4 +181,31 @@ func checkForStart(c echo.Context) error {
 	} else {
 		return c.NoContent(http.StatusForbidden)
 	}
+}
+
+func changeSettings(c echo.Context) error {
+	settings := &GameSettings{}
+	if err := c.Bind(&settings); err != nil {
+		fmt.Println(err)
+	}
+	telestrationsLib.ChangeSettings(1, settings.Time, settings.Difficulty)
+}
+
+func submit(c echo.Context) error {
+	// decode json obj
+	var sub submission
+	c.Bind(sub)
+	// update player state
+	sess, _ := session.Get("session", c)
+	id, _ := sess.Values["id"]
+	var aid *telestrationsLib.Player
+	aid = id.(*telestrationsLib.Player)
+	aid.PLSetState(telestrationsLib.StateDone)
+	// store data in databse
+	if sub.svg != "" {
+		telestrationsLib.AddPicture(aid.ID, sub.svg, gameManager.Round)
+	} else if sub.guess != "" {
+		telestrationsLib.AddPicture(aid.ID, sub.guess, gameManager.Round)
+	}
+	return c.NoContent(http.StatusOK)
 }

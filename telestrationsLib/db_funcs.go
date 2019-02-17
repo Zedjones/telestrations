@@ -26,7 +26,7 @@ type Picture struct {
 }
 
 type Settings struct {
-	ID         int    `db:"int"`
+	ID         int    `db:"id"`
 	TimeLimit  int    `db:"time_limit"`
 	Difficulty string `db:"difficulty"`
 }
@@ -50,6 +50,7 @@ const getGuessStr = "SELECT user_id, guess, round FROM picture " +
 const changeSettingsStr = "UPDATE settings SET time_limit = $1, word_difficulty = $2" +
 	"	WHERE id = $3"
 const initSettingsStr = "INSERT INTO \"settings\" (id) VALUES ($1)"
+const getSettingsStr = "SELECT id, name, starting_word FROM settings WHERE id = $1"
 
 func Connect() *sqlx.DB {
 	db, err := sqlx.Open("postgres", connStr)
@@ -92,6 +93,15 @@ func GetName(user int) string {
 		fmt.Println(err)
 	}
 	return users[0].Name
+}
+
+func GetStartingWord(user int) string {
+	db := Connect()
+	users := []User{}
+	if err := db.Select(&users, getUserStr, user); err != nil {
+		fmt.Println(err)
+	}
+	return users[0].StartWord
 }
 
 func AddPicture(user int, svg string, round int) {
@@ -138,4 +148,13 @@ func ChangeSettings(game int, timeLimit int, difficulty string) {
 	if _, err := db.Exec(changeSettingsStr, timeLimit, difficulty, game); err != nil {
 		fmt.Println(err)
 	}
+}
+
+func GetSettings(game int) Settings {
+	db := Connect()
+	settings := []Settings{}
+	if err := db.Select(&settings, getSettingsStr); err != nil {
+		fmt.Println(err)
+	}
+	return settings[0]
 }
