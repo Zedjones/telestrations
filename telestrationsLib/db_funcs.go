@@ -94,6 +94,15 @@ func GetName(user int) string {
 	return users[0].Name
 }
 
+func GetStartingWord(user int) string {
+	db := Connect()
+	users := []User{}
+	if err := db.Select(&users, getUserStr, user); err != nil {
+		fmt.Println(err)
+	}
+	return users[0].StartWord
+}
+
 func AddPicture(user int, svg string, round int) {
 	db := Connect()
 	if _, err := db.Exec(insertPictureStr, user, svg, round); err != nil {

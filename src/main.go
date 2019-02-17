@@ -85,6 +85,7 @@ func drawPage(c echo.Context) error {
 	// }
 	data := make(map[string]interface{})
 	data["id"] = strconv.Itoa(aid.ID)
+	data["word"] = telestrationsLib.GetStartingWord(aid.ID)
 	return c.Render(http.StatusOK, "game.html", data)
 }
 
