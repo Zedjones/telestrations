@@ -38,46 +38,44 @@
                 <ul class="right">
                     <li><a {{if ne (index . "id") "1"}}style="display: none;"{{end}} class="indigo darken-1 waves-effect waves-light btn modal-trigger" href="#modal1">Settings</a></li>
                     <!-- modal -->
-                    <div id="modal1" class="modal">
-                        <div class="modal-content grey-text text-darken-2">
-                            <h4 class="black-text no-padding">Settings</h4>
-                            <!-- time limit -->
-                            <div class="input-field col s12">
-                                <select id="mySelect">
-                                    <option value="" disabled selected>Time Limit (in seconds)</option>
-                                    <option value="30">30</option>
-                                    <option value="60">60</option>
-                                    <option value="90">90</option>
-                                    <option value="120">120</option>
-                                    <option value="-1">No Limit</option>
-                                </select>
-                            </div>  
-                            <!-- difficulty settings -->
-                            <form>
-                                <p>
-                                    Difficulty:
-                                    <label>
-                                        <input class="with-gap" value="easy" name="group1" type="radio" checked/>
-                                        <span>Easy&thinsp;&thinsp;&thinsp;&thinsp;</span>
-                                    </label>
-                                    <label>
-                                        <input class="with-gap" value="medium" name="group1" type="radio"/>
-                                        <span>Medium&thinsp;&thinsp;&thinsp;&thinsp;</span>
-                                    </label>
-                                    <label>
-                                        <input class="with-gap" value="hard" name="group1" type="radio"/>
-                                        <span>Hard&thinsp;&thinsp;&thinsp;&thinsp;</span>
-                                    </label>
-                                    <label>
-                                        <input class="with-gap" value="hardcore" name="group1" type="radio"/>
-                                        <span>Hardcore</span>
-                                    </label>
-                                </p>
-                                <br>
-                            </form>
-                            <div class="modal-footer">
-                                <a onclick="save();" class="modal-close waves-effect waves-light btn-flat">Save</a>
-                            </div>
+                    <div id="modal1" class="modal modal-content grey-text text-darken-2">
+                        <h4 class="black-text no-padding">Settings</h4>
+                        <!-- time limit -->
+                        <div class="input-field col s12">
+                            <select id="mySelect">
+                                <option value="" disabled selected>Time Limit (in seconds)</option>
+                                <option value="30">30</option>
+                                <option value="60">60</option>
+                                <option value="90">90</option>
+                                <option value="120">120</option>
+                                <option value="-1">No Limit</option>
+                            </select>
+                        </div>  
+                        <!-- difficulty settings -->
+                        <form>
+                            <p>
+                                Difficulty:
+                                <label>
+                                    <input class="with-gap" value="easy" name="group1" type="radio" checked/>
+                                    <span>Easy&thinsp;&thinsp;&thinsp;&thinsp;</span>
+                                </label>
+                                <label>
+                                    <input class="with-gap" value="medium" name="group1" type="radio"/>
+                                    <span>Medium&thinsp;&thinsp;&thinsp;&thinsp;</span>
+                                </label>
+                                <label>
+                                    <input class="with-gap" value="hard" name="group1" type="radio"/>
+                                    <span>Hard&thinsp;&thinsp;&thinsp;&thinsp;</span>
+                                </label>
+                                <label>
+                                    <input class="with-gap" value="hardcore" name="group1" type="radio"/>
+                                    <span>Hardcore</span>
+                                </label>
+                            </p>
+                            <br>
+                        </form>
+                        <div class="modal-footer">
+                            <a onclick="save();" class="modal-close waves-effect waves-light btn-flat">Save</a>
                         </div>
                     </div>
                 </ul>
@@ -85,72 +83,66 @@
         </nav>
         
         <!-- top info -->
-        <div class="section no-pad-bot no-pad-top" id="index-banner">
-            <div class="container">
-                <h1 class="header center deep-purple-text text-lighten-1">Telestrations</h1>
-                <div class="row center">
-                    <h5 class="header col s12 light">The future of drawing games</h5>
-                </div>
-                <div class="row center no-pad-bot">
-                    <a href="game.html" id="download-button" class="btn-large waves-effect waves-light deep-purple darken-1">Start Game</a>
-                </div>
+        <div class="section no-pad-bot no-pad-top container" id="index-banner">
+            <h1 class="header center deep-purple-text text-lighten-1">Telestrations</h1>
+            <div class="row center">
+                <h5 class="header col s12 light">The future of drawing games</h5>
+            </div>
+            <div class="row center no-pad-bot">
+                <!-- if player is the leader, display start button -->
+                <a {{if ne (index . "id") "1"}}style="display: none;"{{end}} href="game.html" id="download-button" class="btn-large waves-effect waves-light deep-purple darken-1">Start Game</a>
+                <!-- otherwise, display "waiting for leader" -->
+                <h5 {{if eq (index . "id") "1"}}style="display: none;"{{end}} class="indigo-text text-darken-1">Waiting for leader to start the game<br><img src="assets/images/loadingDots.gif" alt="..."></h5>
             </div>
         </div>
         
         <!-- center info -->
-        <div class="container">
-            <div class="section">
-                <div class="row">
-                    <!-- current players block -->
-                    <div class="col s3 m3 players">
-                        <div class="icon-block">
-                            <h2 class="center deep-purple-text text-lighten-2"><i class="material-icons">group</i></h2>
-                            <h5 class="center">Current Players:</h5>
-                            <p class="light" id="players">
-                                {{range $ind, $val := index . "players"}}
-                                    {{if eq $ind 0}}
-                                        <i class="material-icons">star</i> {{$val.Name}} <i style="color:crimson" class="material-icons">brightness_1</i></br>
-                                    {{else}}
-                                        {{$val.Name}} <i style="color:" class="material-icons">brightness_1</i></br>
-                                    {{end}}
-                                {{end}}
-                            </p>
-                        </div>
-                    </div>
-                    <!-- drawing board block -->
-                    <div class="col s9 m9">
-                        <div class="icon-block">
-                            <h2 class="center deep-purple-text text-lighten-2"><i class="material-icons">brush</i></h2>
-                            <h5 class="center">Here's what the drawing board will look like:</h5>
-                            <div id="drawing" class="my-drawing"></div>
-                        </div>
-                    </div>
+        <div class="container no-pad-top section row">
+            <!-- current players block -->
+            <div class="col s3 m3 players">
+                <div class="icon-block">
+                    <h2 class="center deep-purple-text text-lighten-2"><i class="material-icons">group</i></h2>
+                    <h5 class="center">Current Players:</h5>
+                    <p class="light" id="players">
+                        {{range $ind, $val := index . "players"}}
+                            {{if eq $ind 0}}
+                                <i class="material-icons">star</i> {{$val.Name}} <i style="color:crimson" class="material-icons">brightness_1</i></br>
+                            {{else}}
+                                {{$val.Name}} <i style="color:" class="material-icons">brightness_1</i></br>
+                            {{end}}
+                        {{end}}
+                    </p>
+                </div>
+            </div>
+            <!-- drawing board block -->
+            <div class="col s9 m9">
+                <div class="icon-block">
+                    <h2 class="center deep-purple-text text-lighten-2"><i class="material-icons">brush</i></h2>
+                    <h5 class="center">Here's what the drawing board will look like:</h5>
+                    <div id="drawing" class="my-drawing"></div>
                 </div>
             </div>
         </div>
 
         <!-- footer -->
         <footer class="page-footer indigo lighten-3">
-            <div class="container">
-                <div class="row">
-                    <div class="col l6 s12">
-                        <h5 class="white-text">How to Play</h5>
-                        <p class="grey-text text-lighten-3">Think of the telephone game but using drawings. Each player will be given a word to draw, each drawing will then be passed around to the next person. Players will guess the drawing they have recieved, then those guesses will be passed to the next person. There, players start again and draw the guess they have recieved. This continues until you recieve your original drawing and see how it transformed!</p>
-                    </div>
-                    <div class="col l6 s12">
-                        <h5 class="white-text">Sources</h5>
-                        <ul>
+            <div class="container row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">How to Play</h5>
+                    <p class="grey-text text-lighten-3">Think of the telephone game but using drawings. Each player will be given a word to draw, each drawing will then be passed around to the next person. Players will guess the drawing they have recieved, then those guesses will be passed to the next person. There, players start again and draw the guess they have recieved. This continues until you recieve your original drawing and see how it transformed!</p>
+                </div>
+                <div class="col l6 s12">
+                    <h5 class="white-text">Sources</h5>
+                    <ul>
                         <li><a class="white-text" href="https://theop.games/products/game/telestrations-12-player-the-party-pack/">Telestrations</a></li>
                         <li><a class="white-text" href="https://materializecss.com/">Materialize</a></li>
                         <li><a class="white-text" href="http://literallycanvas.com/index.html">Literally Canvas</a></li>
-                        </ul>
-                    </div>
+                        <li><a class="white-text" href="http://manos.malihu.gr/jquery-custom-content-scroller/">Custom Scroller</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="footer-copyright">
-                <div class="container">
-                    Made by <a class="deep-purple-text text-darken-1" href="https://github.com/Zedjones/telestrations">Ellie, Nick, and Cory</a>
-                </div>
+            <div class="footer-copyright container">
+                Made by <a class="deep-purple-text text-darken-1" href="https://github.com/Zedjones/telestrations">Ellie, Nick, and Cory</a>
             </div>
         </footer>
         
