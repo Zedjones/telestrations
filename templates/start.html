@@ -105,9 +105,9 @@
                             <p class="light" id="players">
                                 {{range $ind, $val := index . "players"}}
                                     {{if eq $ind 0}}
-                                        <i class="material-icons">star</i>{{$val.Name}} <i class="material-icons">brightness_1</i></br>
+                                        <i class="material-icons">star</i> {{$val.Name}} <i style="color:crimson" class="material-icons">brightness_1</i></br>
                                     {{else}}
-                                        {{$val.Name}} <i class="material-icons">brightness_1</i></br>
+                                        {{$val.Name}} <i style="color:" class="material-icons">brightness_1</i></br>
                                     {{end}}
                                 {{end}}
                             </p>
@@ -194,10 +194,10 @@
                     var playersPPG = document.getElementById('players');
                     playersPPG.innerHTML = "";
                     for(var i = 0; i < data.length; i++){
-                        if(data[i].ID == 1){
-                            playersPPG.innerHTML += "<i class='material-icons'>star</i>";
+                        if(data[i].ID == 1){ 
+                            playersPPG.innerHTML += "<i style='color:crimson' class='material-icons'>star</i> ";
                         }
-                        playersPPG.innerHTML += data[i].Name + "<i class='material-icons'>brightness_1</i><br>";
+                        playersPPG.innerHTML += data[i].Name + " <i style='color:' class='material-icons'>brightness_1</i><br>";
                     }
                 })          
             }, 1000);
