@@ -67,6 +67,7 @@ func main() {
 	e.GET("/getPlayers", getPlayers)
 	e.GET("/getTime", getTime)
 	e.GET("/drawPage", drawPage)
+	e.POST("/startGame", startGame)
 	e.Start(":1234")
 }
 
@@ -141,4 +142,17 @@ func getPlayers(c echo.Context) error {
 
 func getTime(c echo.Context) error {
 	return c.JSON(http.StatusOK, gameManager.TimeLeft)
+}
+
+func startGame(c echo.Context) error {
+	gameManager.GMStartGame()
+	return c.NoContent(http.StatusOK)
+}
+
+func checkForStart(c echo.Context) error {
+	if gameManager.State == telestrationsLib.StateProgress {
+		return c.NoContent(http.StatusOK)
+	} else {
+		return c.NoContent(http.StatusForbidden)
+	}
 }
