@@ -112,6 +112,7 @@ func addUser(c echo.Context) error {
 }
 
 func getPlayers(c echo.Context) error {
-	Players := gameManager.GMGetPlayersAsArray()
-	return c.JSON(http.StatusOK, Players)
+	players := gameManager.GMGetPlayersAsArray()
+	fmt.Println(players)
+	return c.JSON(http.StatusOK, players)
 }

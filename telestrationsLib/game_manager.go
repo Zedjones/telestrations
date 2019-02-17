@@ -2,6 +2,7 @@ package telestrationsLib
 
 import (
 	"errors"
+	"sort"
 	"time"
 )
 
@@ -86,6 +87,9 @@ func (gm GameState) GMGetPlayersAsArray() []Player {
 	for _, player := range gm.AllPlayers {
 		players = append(players, player)
 	}
+	sort.Slice(players, func(i, j int) bool {
+		return players[i].ID < players[j].ID
+	})
 	return players
 }
 
