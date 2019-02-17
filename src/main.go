@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"io"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -56,7 +57,6 @@ func drawPage(c echo.Context) error {
 }
 
 func index(c echo.Context) error {
-	fmt.Println("index")
 	_, err := c.Cookie("id")
 	if err != nil {
 		return c.Redirect(http.StatusFound, "/login")
@@ -75,15 +75,12 @@ func login(c echo.Context) error {
 
 func addUser(c echo.Context) error {
 	fmt.Println("adduser")
-	user := new(User)
-	if err := c.Bind(user); err != nil {
-		fmt.Println(err)
-	}
-	id := telestrationsLib.AddUser(user.Name)
-	gameManager.GMAddPlayer(id, user.Name)
+	name := c.FormValue("name")
+	id := telestrationsLib.AddUser(name)
+	gameManager.GMAddPlayer(id, name)
 	cookie := new(http.Cookie)
 	cookie.Name = "id"
-	cookie.Value = string(id)
+	cookie.Value = strconv.Itoa(id)
 	c.SetCookie(cookie)
 	return c.Redirect(http.StatusFound, "/")
 }
