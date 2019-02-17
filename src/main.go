@@ -85,5 +85,5 @@ func addUser(c echo.Context) error {
 	cookie.Name = "id"
 	cookie.Value = string(id)
 	c.SetCookie(cookie)
-	return c.Redirect(http.StatusOK, "/")
+	return c.Redirect(http.StatusFound, "/")
 }

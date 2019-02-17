@@ -25,15 +25,27 @@ type Player struct {
 type GameState struct {
 	Round      int
 	TimeLeft   int
-	AllPlayers map[string]Player
+	AllPlayers map[int]Player
+	state      gameState
 }
 
 func CreateGameState() *GameState {
 	gameState := new(GameState)
-	gameState.AllPlayers = make(map[string]Player)
+	gameState.AllPlayers = make(map[int]Player)
 	return gameState
 }
 
 func (gm GameState) GMAddPlayer(id int, name string) {
-	gm.AllPlayers[name] = Player{id: len(gm.AllPlayers), name: name, state: StateInLobby}
+	gm.AllPlayers[id] = Player{id: id, name: name, state: StateInLobby}
 }
+
+func (gm GameState) GMSetState(state gameState) {
+	gm.state = state
+}
+
+func (gm GameState) GMGetPlayer(id int) {
+
+}
+
+// Round Timer
+// GetPlayer
