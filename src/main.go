@@ -87,19 +87,21 @@ func drawPage(c echo.Context) error {
 func index(c echo.Context) error {
 	fmt.Println("index")
 	sess, _ := session.Get("session", c)
-	// sess.Options.MaxAge =
-	// return nil
 	id, _ := sess.Values["id"]
+	fmt.Println(gameManager.AllPlayers)
 	if id == nil {
-		fmt.Println(id)
+		// fmt.Println(id)
 		return c.Redirect(http.StatusFound, "/login")
 	}
 	var aid *telestrationsLib.Player
 	//json.Unmarshal(id.([]byte), aid)
 	aid = id.(*telestrationsLib.Player)
+	fmt.Println(gameManager.GMPlayerExists(aid.ID))
 	if !gameManager.GMPlayerExists(aid.ID) {
-		gameManager.GMAddPlayer(aid.ID, aid.Name)
+		id := telestrationsLib.AddUser(aid.Name)
+		gameManager.GMAddPlayer(id, aid.Name)
 	}
+	fmt.Println(gameManager.AllPlayers)
 	data := make(map[string]interface{})
 	data["colorMap"] = colorMap
 	data["players"] = gameManager.GMGetPlayersAsArray()
