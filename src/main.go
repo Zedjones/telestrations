@@ -32,7 +32,7 @@ type TemplateRenderer struct {
 }
 
 type GameSettings struct {
-	Time       string `json:"time"`
+	Time       int    `json:"time"`
 	Difficulty string `json:"difficulty"`
 }
 
@@ -188,7 +188,7 @@ func changeSettings(c echo.Context) error {
 	if err := c.Bind(&settings); err != nil {
 		fmt.Println(err)
 	}
-	return nil
+	telestrationsLib.ChangeSettings(1, settings.Time, settings.Difficulty)
 }
 
 func submit(c echo.Context) error {

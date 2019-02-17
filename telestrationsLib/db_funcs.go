@@ -149,3 +149,12 @@ func ChangeSettings(game int, timeLimit int, difficulty string) {
 		fmt.Println(err)
 	}
 }
+
+func GetSettings(game int) Settings {
+	db := Connect()
+	settings := []Settings{}
+	if err := db.Select(&settings, getSettingsStr); err != nil {
+		fmt.Println(err)
+	}
+	return settings[0]
+}
