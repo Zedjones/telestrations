@@ -35,5 +35,5 @@ func CreateGameState() *GameState {
 }
 
 func (gm GameState) GMAddPlayer(id int, name string) {
-	gm.AllPlayers[name] = Player{id: len(gm.AllPlayers), name: name, state: StateInLobby}
+	gm.AllPlayers[name] = Player{id: id, name: name, state: StateInLobby}
 }
