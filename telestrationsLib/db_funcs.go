@@ -28,7 +28,7 @@ type Picture struct {
 type Settings struct {
 	ID         int    `db:"id"`
 	TimeLimit  int    `db:"time_limit"`
-	Difficulty string `db:"difficulty"`
+	Difficulty string `db:"word_difficulty"`
 }
 
 const connStr = "postgres://zedjones:password@localhost/telestrations?sslmode=disable"
@@ -50,7 +50,7 @@ const getGuessStr = "SELECT user_id, guess, round FROM picture " +
 const changeSettingsStr = "UPDATE settings SET time_limit = $1, word_difficulty = $2" +
 	"	WHERE id = $3"
 const initSettingsStr = "INSERT INTO \"settings\" (id) VALUES ($1)"
-const getSettingsStr = "SELECT id, name, starting_word FROM settings WHERE id = $1"
+const getSettingsStr = "SELECT id, time_limit, word_difficulty FROM settings WHERE id = $1"
 
 func Connect() *sqlx.DB {
 	db, err := sqlx.Open("postgres", connStr)
@@ -153,7 +153,7 @@ func ChangeSettings(game int, timeLimit int, difficulty string) {
 func GetSettings(game int) Settings {
 	db := Connect()
 	settings := []Settings{}
-	if err := db.Select(&settings, getSettingsStr); err != nil {
+	if err := db.Select(&settings, getSettingsStr, game); err != nil {
 		fmt.Println(err)
 	}
 	return settings[0]
