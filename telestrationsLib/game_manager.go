@@ -16,10 +16,16 @@ const (
 type gameState int
 
 const (
-	StateProgress gameState = 0 // round in progress
-	StateEmpty    gameState = 1 // has not started
-	StateWaiting  gameState = 2 // in between rounds
-	StateFinished gameState = 3 // all rounds over
+	StateProgress gameState = 0 // game in progress
+	StateWaiting  gameState = 1 // hasnt started
+	StateFinished gameState = 2 // all rounds over
+)
+
+type roundState int
+
+const (
+	RoundWaiting  roundState = 0
+	RoundProgress roundState = 1
 )
 
 type Player struct {
@@ -33,6 +39,7 @@ type GameState struct {
 	TimeLeft    int
 	AllPlayers  map[int]Player
 	state       gameState
+	rState      roundState
 	NumRounds   int
 	RoundLength int
 }
@@ -42,7 +49,7 @@ type GameState struct {
 func CreateGameState() *GameState {
 	gm := new(GameState)
 	gm.AllPlayers = make(map[int]Player)
-	gm.state = StateEmpty
+	gm.state = StateWaiting
 	return gm
 }
 
@@ -74,9 +81,18 @@ func (gm GameState) GMGetPlayersByName(pname string) [](*Player) {
 
 }
 
-// sets GameState instance to finished
-func (gm GameState) gmFinished() {
-	gm.state = StateFinished
+func (gm GameState) GMGetPlayersAsArray() []Player {
+	size := len(gm.AllPlayers)
+	players := make([]Player, size)
+	for i := 0; i < size; i++ {
+		players[i] = gm.AllPlayers[i]
+	}
+	return players
+}
+
+func (gm GameState) GMStartGame() {
+	gm.state = StateProgress
+	//TODO
 }
 
 // Starts a new Round of the game
@@ -87,7 +103,8 @@ func (gm GameState) gmFinished() {
 func (gm GameState) GMRoundStart() error {
 	gm.NumRounds = len(gm.AllPlayers)
 	if gm.Round > gm.NumRounds {
-		gm.gmFinished()
+		gm.rState = RoundWaiting
+		gm.state = StateFinished
 		return errors.New("All Rounds Over")
 	}
 	go gm.gmStartTimer()
@@ -97,7 +114,7 @@ func (gm GameState) GMRoundStart() error {
 
 // Round Timer
 func (gm GameState) gmStartTimer() {
-	gm.state = StateProgress
+	gm.rState = RoundProgress
 	if gm.RoundLength == -1 { // for infinite time rounds
 		for !gm.AllPlayersDone() {
 			time.Sleep(time.Second)
@@ -110,7 +127,7 @@ func (gm GameState) gmStartTimer() {
 		}
 	}
 	gm.Round++
-	gm.state = StateWaiting
+	gm.rState = RoundWaiting
 }
 
 func (gm GameState) AllPlayersDone() bool {
@@ -127,4 +144,8 @@ func (gm GameState) AllPlayersDone() bool {
 
 func (p Player) PLSetState(st playerState) {
 	p.state = st
+}
+
+func (p Player) PLGetState() playerState {
+	return p.state
 }
