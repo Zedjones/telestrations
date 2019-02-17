@@ -80,7 +80,15 @@ func drawPage(c echo.Context) error {
 	id, _ := sess.Values["id"]
 	var aid *telestrationsLib.Player
 	aid = id.(*telestrationsLib.Player)
-	oddeven := len(gameManager.AllPlayers) % 2
+	if gameManager.Round == 0 {
+		startNum := len(gameManager.AllPlayers) % 2
+		if startNum == 1 {
+			// odd start page
+		} else {
+			// even start page
+		}
+	}
+	oddeven := gameManager.Round % 2
 	if oddeven == 1 {
 		// odd page
 	} else {
