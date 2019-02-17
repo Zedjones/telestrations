@@ -188,6 +188,7 @@ func changeSettings(c echo.Context) error {
 	if err := c.Bind(&settings); err != nil {
 		fmt.Println(err)
 	}
+	return nil
 }
 
 func submit(c echo.Context) error {
