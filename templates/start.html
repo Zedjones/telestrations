@@ -203,8 +203,23 @@
             
             // starting the game button
             function startGame(){
-                window.location.href = "game.html";
+                req.open('POST', '/startGame', true);
+                req.send();
+                window.location.href = "/drawPage";
             }
+            // refresh to check if starting game every half second
+            setInterval(function starting(){
+                $.ajax({
+                    type: "GET",
+                    url: "/checkForStart",
+                    dataType: "json"
+                })
+                .success(function(data){
+                    if(data['started'] == true){
+                        window.location.href = "/drawPage";
+                    }
+                })          
+            }, 500);
             
             // save settings
             function save(){
@@ -221,7 +236,7 @@
                 req.send(JSON.stringify(obj));
             }
             
-            // refresh the player list every second
+            // refresh the player list every half second
             setInterval(function refreshing(){
                 $.ajax({
                     type: "GET",
@@ -239,7 +254,7 @@
                         playersPPG.innerHTML += data[i].Name + " <i style='color:" + colorMap[data[i].ID] + "' class='material-icons'>brightness_1</i><br>";
                     }
                 })          
-            }, 1000);
+            }, 500);
         </script>
     </body> 
 </html>
