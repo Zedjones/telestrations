@@ -66,6 +66,7 @@ func main() {
 	e.POST("/addUser", addUser)
 	e.GET("/getPlayers", getPlayers)
 	e.GET("/getTime", getTime)
+	e.GET("/drawPage", drawPage)
 	e.Start(":1234")
 }
 
