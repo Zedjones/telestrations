@@ -84,13 +84,13 @@
         
         <!-- top info -->
         <div class="section no-pad-bot no-pad-top container" id="index-banner">
-            <h1 class="header center deep-purple-text text-lighten-1">Telestrations</h1>
+            <h1 class="header center indigo-text text-lighten-1">Telestrations</h1>
             <div class="row center">
                 <h5 class="header col s12 light">The future of drawing games</h5>
             </div>
             <div class="row center no-pad-bot">
                 <!-- if player is the leader, display start button -->
-                <a {{if ne (index . "id") "1"}}style="display: none;"{{end}} href="#modalStart" id="download-button" class="btn-large waves-effect waves-light deep-purple darken-1">Start Game</a>
+                <a {{if ne (index . "id") "1"}}style="display: none;"{{end}} href="#modalStart" id="download-button" class="btn-large indigo darken-1 waves-effect waves-light btn modal-trigger">Start Game</a>
                 <!-- start game modal -->
                 <div id="modalStart" class="modal">
                     <div class="modal-content">
@@ -146,19 +146,20 @@
                     <h5 class="white-text">How to Play</h5>
                     <p class="grey-text text-lighten-3">Think of the telephone game but using drawings. Each player will be given a word to draw, each drawing will then be passed around to the next person. Players will guess the drawing they have recieved, then those guesses will be passed to the next person. There, players start again and draw the guess they have recieved. This continues until you recieve your original drawing and see how it transformed!</p>
                 </div>
-                <div class="col l6 s12">
+                <div style="padding-left:50px!important;"class="col l6 s12">
                     <h5 class="white-text">Sources</h5>
                     <ul>
-                        <li><a class="white-text" href="https://theop.games/products/game/telestrations-12-player-the-party-pack/">Telestrations</a></li>
-                        <li><a class="white-text" href="https://materializecss.com/">Materialize</a></li>
-                        <li><a class="white-text" href="http://literallycanvas.com/index.html">Literally Canvas</a></li>
-                        <li><a class="white-text" href="http://manos.malihu.gr/jquery-custom-content-scroller/">Custom Scroller</a></li>
+                        <li><a target="_blank"  class="white-text" href="https://theop.games/products/game/telestrations-12-player-the-party-pack/">Telestrations</a></li>
+                        <li><a target="_blank" class="white-text" href="https://materializecss.com/">Materialize</a></li>
+                        <li><a target="_blank" class="white-text" href="http://literallycanvas.com/index.html">Literally Canvas</a></li>
+                        <li><a target="_blank" class="white-text" href="http://manos.malihu.gr/jquery-custom-content-scroller/">Custom Scroller</a></li>
+                        <li><a target="_blank" class="white-text" href="https://loading.io/">Loading Icons</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-copyright">
                 <div class="container">
-                    Made by <a class="deep-purple-text text-darken-1" href="https://github.com/Zedjones/telestrations">Ellie, Nick, and Cory</a>
+                    Made by <a target="_blank" class="black-text" href="https://github.com/Zedjones/telestrations">Ellie, Nick, and Cory</a>
                 </div>
             </div>
         </footer>
@@ -174,9 +175,9 @@
 
         <!-- other js -->
         <script>
-            var obj = {
+            var colorMap = {
                 1: "#ef9a9a",
-                2: "#f48fb",
+                2: "#f48fb1",
                 3: "#ce93d8",
                 4: "#b39ddb",
                 5: "#9fa8da",
@@ -202,7 +203,7 @@
             
             // starting the game button
             function startGame(){
-                location: "game.html";
+                window.location.href = "game.html";
             }
             
             // save settings
@@ -235,7 +236,7 @@
                         if(data[i].ID == 1){ 
                             playersPPG.innerHTML += "<i style='color:crimson' class='material-icons'>star</i> ";
                         }
-                        playersPPG.innerHTML += data[i].Name + " <i style='color:" + colorMap[data[i].ID + "' class='material-icons'>brightness_1</i><br>";
+                        playersPPG.innerHTML += data[i].Name + " <i style='color:" + colorMap[data[i].ID] + "' class='material-icons'>brightness_1</i><br>";
                     }
                 })          
             }, 1000);

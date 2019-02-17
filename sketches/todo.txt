@@ -3,6 +3,7 @@ login.html
 start.html
     - color the player icons
     - make sure order of json players doesnt randomly jump around
+    - start game button redirect server side instead of client
 
 game.html
     - round counter
@@ -15,8 +16,7 @@ guess.html
     - kick players to game when time runs out
 
 final.html
-    - new game button only available to leader
-    - change "new game" button to have a pop-up to ask if you are sure, as it will kick all players back to home page when leader clicks
+    - new game button redirect server side instead of client
     
 not important stuff
     - starting drawing pen color for each user is their color

@@ -35,21 +35,27 @@
         <nav class="indigo lighten-2" role="navigation">
             <div class="nav-wrapper container"><a id="logo-container" class="brand-logo">Telestrations</a>
                 <!-- nav -->
-                <ul class="right hide-on-med-and-down">
-                    <a href="start.html" class="indigo darken-1 waves-effect waves-light btn modal-trigger">New Game</a>
+                <ul class="right">
+                    <a {{if ne (index . "id") "1"}}style="display: none;"{{end}} href="#modalStart" class="indigo darken-1 waves-effect waves-light btn modal-trigger">New Game</a>
+                    <!-- new game modal -->
+                    <div style="overflow:hidden" id="modalStart" class="modal">
+                        <div class="modal-content grey-text text-darken-2">
+                            <h4>Are you sure you want to start a new game?</h4>
+                            <p>A new game will kick all players out of this final screen, make sure everyone is done viewing!</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a onclick="newGame();" class="modal-close waves-effect waves-light btn-flat">New Game</a>
+                            <a class="modal-close waves-effect waves-light btn-flat">Wait</a>
+                        </div>
+                    </div>
                 </ul>
-                <!-- mobile nav -->
-                <ul id="nav-mobile" class="sidenav">
-                    <li><a href="start.html">New Game</a></li>
-                </ul>
-                <a data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             </div>
         </nav>
         
         <!-- top info -->
         <div class="section no-pad-bot no-pad-top" id="index-banner">
             <div class="container">
-                <h3 class="header center deep-purple-text text-lighten-1">Final Results</h3>
+                <h3 class="header center indigo-text text-lighten-1">Final Results</h3>
                 <div class="row center">
                     <h6 class="header col s12 light">Click a player to see their compendium</h6>
                 </div>
@@ -61,7 +67,7 @@
             <ul id="everything">
                 <li><a class="indigo darken-1 waves-effect waves-light btn modal-trigger" href="#modal2">Player 1</a></li>
                 <!-- modal -->
-                <div id="modal2" class="modal mCustomScrollbar" data-mcs-theme="dark">
+                <div id="modal2" class="modal modalFinal mCustomScrollbar" data-mcs-theme="dark">
                     <div class="modal-content grey-text text-darken-2">
                         <!-- info card -->
                         <div class="card">
@@ -112,7 +118,7 @@
                 
                 var modal = '<li><a class="indigo darken-1 waves-effect waves-light btn modal-trigger" href="#modal';
                 modal += num + '">' + player;
-                modal += '</a></li><div id="modal' + num + '" class="modal mCustomScrollbar" data-mcs-theme="dark"><div class="modal-content grey-text text-darken-2"><div class="card"><div class="card-content"><p>';
+                modal += '</a></li><div id="modal' + num + '" class="modal modalFinal mCustomScrollbar" data-mcs-theme="dark"><div class="modal-content grey-text text-darken-2"><div class="card"><div class="card-content"><p>';
                 modal += player + 's original word was ' + origWord;
                 modal += '</p></div><div class="card-tabs"><ul class="tabs tabs-fixed-width">';
                 // loop thru rounds for each tab
@@ -132,6 +138,11 @@
                 }
                 modal += '</div></div><div class="modal-footer"><a class="modal-close waves-effect waves-light btn-flat">Close</a></div></div></div>';
                 document.getElementById('everything').innerHTML += modal;
+            }
+            
+            // start new game button
+            function newGame(){
+                window.location.href = "start.html";
             }
         </script>
     </body> 
