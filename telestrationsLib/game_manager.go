@@ -98,9 +98,11 @@ func (gm GameState) GMRoundStart() error {
 // Round Timer
 func (gm GameState) gmStartTimer() {
 	gm.state = StateProgress
-	if gm.RoundLength == -1 {
-
-	} else {
+	if gm.RoundLength == -1 { // for infinite time rounds
+		for !gm.AllPlayersDone() {
+			time.Sleep(time.Second)
+		}
+	} else { // for timed rounds
 		gm.TimeLeft = gm.RoundLength
 		for gm.TimeLeft > 0 {
 			time.Sleep(time.Second)
@@ -111,7 +113,7 @@ func (gm GameState) gmStartTimer() {
 	gm.state = StateWaiting
 }
 
-func (gm GameState) allPlayersDone() bool {
+func (gm GameState) AllPlayersDone() bool {
 	var b bool = true
 	for _, v := range gm.AllPlayers {
 		if v.state == StateWorking {
