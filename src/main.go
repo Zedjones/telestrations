@@ -189,6 +189,7 @@ func changeSettings(c echo.Context) error {
 		fmt.Println(err)
 	}
 	telestrationsLib.ChangeSettings(1, settings.Time, settings.Difficulty)
+	return c.NoContent(http.StatusOK)
 }
 
 func submit(c echo.Context) error {
