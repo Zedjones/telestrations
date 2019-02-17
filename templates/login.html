@@ -29,29 +29,25 @@
     
     <body>
         <!-- header -->
-        <nav class="customHeader" role="navigation">
+        <nav class="indigo lighten-2" role="navigation">
             <div class="nav-wrapper container"><a id="logo-container" href="" class="brand-logo">Telestrations</a>
             </div>
         </nav>
         
-        <!-- top info -->
-        <div class="section no-pad-bot no-pad-top" id="index-banner">
-            <div class="container">
-                <h4 class="header center customTitle">Your guess: </h4>
-                <div class="center">
-                    <a id="download-button" class="btn-large waves-effect waves-light customButton" onclick="submit();">Submit Guess</a>
-                </div>
-            </div>
-        </div>
-        
         <!-- center info -->
-        <div class="container">
-            <div class="section">
-                <div class="row">
-                    <!-- blank canvas block -->
-                    <div class="col s12 m12 center" id="customDrawing">
+        <div class="container center" style="padding-top: 40px;">
+            <div class="row center">
+                <form class="col s12 m12 center" onsubmit="login();">
+                    <div class="row center">
+                        <div class="input-field col s6">
+                            <input class="validate" placeholder="Name" id="input_text" type="text" data-length="24" required="" maxlength="24" aria-required="true">
+                            <label for="input_text" data-error="wrong" data-success="right">Welcome! Please enter a name:</label>
+                            <button class="btn waves-effect waves-light deep-purple darken-1" type="submit" name="action">Submit
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
         
@@ -62,37 +58,15 @@
 
         <!-- other js -->
         <script>
-            // submit guess button
-            function submit(){
-                console.log('submit');
-                // pop-up, check if other players are finished otherwise pls wait msg
+            // login
+            function login(){
+                var name = $('#input_text').val();
+                var obj = {"name": name};
+                var req = new XMLHttpRequest();
+                req.open('POST', '/addUser', true);
+                req.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+                req.send(JSON.stringify(obj));
             }
-            
-            // make changes based on user
-            // colors based on user
-            var obj = {
-                1: "#ef9a9a",
-                2: "#f48fb",
-                3: "#ce93d8",
-                4: "#b39ddb",
-                5: "#9fa8da",
-                6: "#90caf9",
-                7: "#80deea",
-                8: "#80cbc4",
-                9: "#a5d6a7",
-                10: "#fff59d",
-                11: "#ffcc80",
-                12: "#bcaaa4"
-            };
-            $(document).ready(function(){
-                // set colors
-                document.getElementsByClassName('customHeader')[0].style.backgroundColor = obj[{{index . "id"}}];
-                document.getElementsByClassName('customTitle')[0].style.color = obj[{{index . "id"}}];
-                document.getElementsByClassName('customButton')[0].style.backgroundColor = obj[{{index . "id"}}];
-
-                // load image into body
-                document.getElementById('customDrawing').innerHTML += ({{index . "drawing"}});
-            });
         </script>
     </body> 
 </html>

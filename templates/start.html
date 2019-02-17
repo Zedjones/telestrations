@@ -29,7 +29,7 @@
     <body>
         <!-- header -->
         <nav class="indigo lighten-2" role="navigation">
-            <div class="nav-wrapper container"><a id="logo-container" href="" class="brand-logo">Telestrations</a>
+            <div class="nav-wrapper container"><a id="logo-container" class="brand-logo">Telestrations</a>
                 <!-- nav -->
                 <ul class="right hide-on-med-and-down">
                     <li><a class="indigo darken-1 waves-effect waves-light btn modal-trigger" href="#modal1">Settings</a></li>
@@ -49,7 +49,7 @@
                                 </select>
                             </div>  
                             <!-- difficulty settings -->
-                            <form action="">
+                            <form>
                                 <p>
                                     Difficulty:
                                     <label>
@@ -72,20 +72,20 @@
                                 <br>
                             </form>
                             <div class="modal-footer">
-                                <a href="" onclick="save();" class="modal-close waves-effect waves-light btn-flat">Save</a>
+                                <a onclick="save();" class="modal-close waves-effect waves-light btn-flat">Save</a>
                             </div>
                         </div>
                     </div>
                 </ul>
                 <!-- mobile nav -->
                 <ul id="nav-mobile" class="sidenav">
-                    <li><a href="">Settings</a></li>
+                    <li><a>Settings</a></li>
                 </ul>
-                <a href="" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <adata-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             </div>
         </nav>
         
-        <!-- top info  -->
+        <!-- top info -->
         <div class="section no-pad-bot no-pad-top" id="index-banner">
             <div class="container">
                 <h1 class="header center deep-purple-text text-lighten-1">Telestrations</h1>
@@ -93,12 +93,12 @@
                     <h5 class="header col s12 light">The future of drawing games</h5>
                 </div>
                 <div class="row center no-pad-bot">
-                    <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light deep-purple darken-1">Start Game</a>
+                    <a href="game.html" id="download-button" class="btn-large waves-effect waves-light deep-purple darken-1">Start Game</a>
                 </div>
             </div>
         </div>
         
-        <!-- center info  -->
+        <!-- center info -->
         <div class="container">
             <div class="section">
                 <div class="row">
@@ -116,7 +116,6 @@
                             <h2 class="center deep-purple-text text-lighten-2"><i class="material-icons">brush</i></h2>
                             <h5 class="center">Here's what the drawing board will look like:</h5>
                             <div id="drawing" class="my-drawing"></div>
-                            <a id="download-button" class="btn-large waves-effect waves-light deep-purple darken-1" onclick="toSVG();">Convert</a>
                         </div>
                     </div>
                 </div>
@@ -180,7 +179,12 @@
                 req.open('POST', '/changeSettings', true);
                 req.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
                 req.send(JSON.stringify(obj));
-            }       
+            }
+            
+            // load players
+            $(document).ready(function(){
+                var playersPPG = document.getElementById('players');
+            });
         </script>
     </body> 
 </html>
