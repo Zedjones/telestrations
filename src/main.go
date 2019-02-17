@@ -75,12 +75,15 @@ func (t *TemplateRenderer) Render(w io.Writer, name string, data interface{}, c 
 }
 
 func drawPage(c echo.Context) error {
-	val, err := c.Cookie("id")
-	if err != nil {
-		fmt.Println(err)
-	}
+	sess, _ := session.Get("session", c)
+	id, _ := sess.Values["id"]
+	var aid *telestrationsLib.Player
+	aid = id.(*telestrationsLib.Player)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 	data := make(map[string]interface{})
-	data["id"] = val.Value
+	data["id"] = strconv.Itoa(aid.ID)
 	return c.Render(http.StatusOK, "game.html", data)
 }
 
