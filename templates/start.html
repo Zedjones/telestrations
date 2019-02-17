@@ -105,7 +105,7 @@
                             <p class="light" id="players">
                                 {{range $ind, $val := index . "players"}}
                                     {{if eq $ind 0}}
-                                        <i class="material-icons">star</i> {{$val.Name}} <i style="color:crimson" class="material-icons">brightness_1</i></br>
+                                        <i style="color:crimson" class="material-icons">star</i> {{$val.Name}} <i style="color:{{index (index . "colorMap") (index . "id") " class="material-icons">brightness_1</i></br>
                                     {{else}}
                                         {{$val.Name}} <i style="color:" class="material-icons">brightness_1</i></br>
                                     {{end}}
