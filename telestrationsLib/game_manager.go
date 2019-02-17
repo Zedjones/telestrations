@@ -109,6 +109,8 @@ func (gm GameState) GMGetPlayersAsArray() []Player {
 	return players
 }
 
+// @pre all players have joined / been added
+// @pre round length has been set
 func (gm GameState) GMStartGame() {
 	gm.State = StateProgress
 	//TODO
