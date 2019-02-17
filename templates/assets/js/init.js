@@ -9,6 +9,9 @@
         $('#modal1').modal({
             dismissible: false
         });
+        $('#modalWait').modal({
+            dismissible: false
+        });
         
         // card tab (final.html)
         $('.tabs').tabs();

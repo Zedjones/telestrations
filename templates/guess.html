@@ -50,6 +50,8 @@
                     req.send(JSON.stringify(obj));
                 }
                 document.getElementById('modalFill').innerHTML = modalText;
+                console.log( document.getElementById('modalFill').innerHTML);
+                return true;
             }
         </script>
         
@@ -68,13 +70,14 @@
                         <input placeholder="Your Guess" id="guessBox" type="text" class="validate" required aria-required="true">
                         <label for="guessBox" data-error="wrong" data-success="right"></label>
                         <div class="center">
-                            <a href="modal1" class="indigo darken-1 waves-effect waves-light btn" onclick="submitGuess()">Submit Guess</a>
+                            <a href="#modalWait" class="indigo darken-1 waves-effect waves-light btn modal-trigger" onclick="return submitGuess();">Submit Guess</a>
                         </div>
                     </div>
                 </form>
                 <!-- waiting for players modal -->
-                <div id="modal1" class="modal">
-                    <div class="modal-content grey-text text-darken-2" id="modalFill">
+                <div id="modalWait" class="modal">
+                    <div class="modal-content grey-text text-darken-2">
+                        <div id="modalFill"></div>
                     </div>
                 </div>
             </div>
@@ -101,7 +104,6 @@
 
         <!-- other js -->
         <script>
-            
             // make changes based on user
             // colors based on user
             var obj = {

@@ -1,7 +1,6 @@
 login.html
 
 start.html
-    - start game button redirect server side instead of client
 
 game.html
     - round counter
