@@ -113,7 +113,7 @@ func (gm GameState) GMGetPlayersAsArray() []Player {
 // @pre round length has been set
 func (gm GameState) GMStartGame() {
 	gm.State = StateProgress
-	//TODO
+	go gm.GMRoundStart()
 }
 
 // Starts a new Round of the game
@@ -123,14 +123,14 @@ func (gm GameState) GMStartGame() {
 // param roundTime the length of the round
 func (gm GameState) GMRoundStart() error {
 	gm.NumRounds = len(gm.AllPlayers)
-	if gm.Round > gm.NumRounds {
-		gm.RState = RoundWaiting
-		gm.State = StateFinished
-		return errors.New("All Rounds Over")
+	for {
+		if gm.Round > gm.NumRounds {
+			gm.RState = RoundWaiting
+			gm.State = StateFinished
+			return errors.New("All Rounds Over")
+		}
+		gm.gmStartTimer()
 	}
-	go gm.gmStartTimer()
-	return nil
-
 }
 
 // Round Timer
