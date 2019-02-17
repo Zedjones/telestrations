@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Telestrations</title>
+        
+        <!-- favicon -->
+        <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+        <link rel="manifest" href="assets/images/site.webmanifest">
+        <link rel="mask-icon" href="assets/images/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        
+        <!-- materialize.css-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+        <!-- dependency: React.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-with-addons.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
+        
+        <!-- Literally Canvas SOURCE : http://literallycanvas.com/index.html open source drawing board code -->
+        <script src="assets/js/literallycanvas.js"></script>
+        <link href="assets/css/literallycanvas.css" rel="stylesheet">
+    </head>
+    
+    <body>
+        <!-- header -->
+        <nav class="customHeader" role="navigation">
+            <div class="nav-wrapper container"><a id="logo-container" href="" class="brand-logo">Telestrations</a>
+            </div>
+        </nav>
+        
+        <!-- top info  -->
+        <div class="section no-pad-bot no-pad-top" id="index-banner">
+            <div class="container">
+                <h4 class="header center customTitle text-darken-2">Your word: </h4>
+            </div>
+        </div>
+        
+        <!-- center info  -->
+        <div class="container">
+            <div class="section">
+                <div class="row">
+                    <!-- drawing board block -->
+                    <div class="col s12 m12">
+                        <div class="icon-block">
+                            <div id="drawing" class="my-drawing"></div>
+                            <div class="row center no-pad-bot">
+                                <a id="download-button" class="btn-large waves-effect waves-light customButton" onclick="toSVG();submit();">Submit Drawing</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+         <!-- materialize script -->
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="assets/js/materialize.js"></script>
+        <script src="assets/js/init.js"></script>
+
+        <!-- other js -->
+        <script>
+            // canvas code
+            // initialize canvas
+            var lc = LC.init(
+                document.getElementsByClassName('my-drawing')[0],
+                {imageURLPrefix: 'assets/images'}
+            );
+            // convert canvas to SVG
+            function toSVG(){
+                var svgString = lc.getSVGString();
+                console.log(svgString);
+            }
+            // submit drawing button
+            function submit(){
+                console.log('submit');
+                // send svg into
+                // pop-up, check if other players are finished otherwise pls wait msg
+            }
+            
+            // make changes based on user
+            // colors based on user
+            var obj = {
+                1: "#ef9a9a",
+                2: "#f48fb",
+                3: "#ce93d8",
+                4: "#b39ddb",
+                5: "#9fa8da",
+                6: "#90caf9",
+                7: "#80deea",
+                8: "#80cbc4",
+                9: "#a5d6a7",
+                10: "#fff59d",
+                11: "#ffcc80",
+                12: "#bcaaa4"
+            };
+            // set colors
+            $(document).ready(function(){
+                //document.getElementsByClassName('customHeader')[0].style.backgroundColor = obj[{{index . "id"}}];
+                //document.getElementsByClassName('customTitle')[0].style.color = obj[{{index . "id"}}];
+                //document.getElementsByClassName('customButton')[0].style.backgroundColor = obj[{{index . "id"}}];
+            });
+        </script>
+    </body> 
+</html>
