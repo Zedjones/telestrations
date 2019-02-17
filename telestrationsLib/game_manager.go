@@ -112,7 +112,6 @@ func (gm GameState) GMGetPlayersAsArray() []Player {
 // @pre all players have joined / been added
 // @pre round length has been set
 func (gm GameState) GMStartGame() {
-	gm.GMSetRoundLength()
 	gm.State = StateProgress
 	go gm.GMRoundStart()
 }
@@ -146,6 +145,9 @@ func (gm GameState) gmStartTimer() {
 		for gm.TimeLeft > 0 {
 			time.Sleep(time.Second)
 			gm.TimeLeft--
+			if !gm.AllPlayersDone() {
+				gm.TimeLeft = 0
+			}
 		}
 	}
 	gm.Round++
