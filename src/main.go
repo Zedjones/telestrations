@@ -150,8 +150,8 @@ func startGame(c echo.Context) error {
 
 func checkForStart(c echo.Context) error {
 	if gameManager.State == telestrationsLib.StateProgress {
-		// YES
+		return c.NoContent(http.StatusOK)
 	} else {
-		// NO
+		return c.NoContent(http.StatusForbidden)
 	}
 }
