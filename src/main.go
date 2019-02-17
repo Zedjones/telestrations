@@ -59,6 +59,7 @@ func main() {
 	e.GET("/", index)
 	e.GET("/login", login)
 	e.POST("/addUser", addUser)
+	e.GET("/getPlayers", getPlayers)
 	e.Start(":1234")
 }
 
@@ -108,4 +109,9 @@ func addUser(c echo.Context) error {
 	cookie.Value = strconv.Itoa(id)
 	c.SetCookie(cookie)
 	return c.Redirect(http.StatusFound, "/")
+}
+
+func getPlayers(c echo.Context) error {
+	Players := gameManager.GMGetPlayersAsArray()
+	return c.JSON(http.StatusOK, Players)
 }
