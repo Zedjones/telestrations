@@ -31,6 +31,28 @@
     </head>
     
     <body>
+        <!-- script at top -->
+        <script>
+            // submit guess button
+            function submitGuess(){
+                var guess = $('#guessBox').val();
+                var modalText = "";
+                if(guess == ""){
+                    modalText += '<h4>Please enter a guess.</h4><div class="modal-footer"><a class="modal-close waves-effect waves-light btn-flat">Close</a></div>';
+                }
+                else{
+                    modalText += '<h4>Waiting on players:</h4><p id="players"></p>';
+                    var obj = {"svg": "", 
+                               "guess": guess};
+                    var req = new XMLHttpRequest();
+                    req.open('POST', '/submit', true);
+                    req.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+                    req.send(JSON.stringify(obj));
+                }
+                document.getElementById('modalFill').innerHTML = modalText;
+            }
+        </script>
+        
         <!-- header -->
         <nav class="customHeader" role="navigation">
             <div class="nav-wrapper container"><a id="logo-container" href="" class="brand-logo">Telestrations</a>
@@ -40,9 +62,20 @@
         <!-- top info -->
         <div class="section no-pad-bot no-pad-top" id="index-banner">
             <div class="container">
-                <h4 class="header center customTitle">Your guess: </h4>
-                <div class="center">
-                    <a id="download-button" class="btn-large waves-effect waves-light customButton" onclick="submit();">Submit Guess</a>
+                <h4 class="header center customTitle">Guess: </h4>
+                <form>
+                    <div class="input-field col s12">
+                        <input placeholder="Your Guess" id="guessBox" type="text" class="validate" required aria-required="true">
+                        <label for="guessBox" data-error="wrong" data-success="right"></label>
+                        <div class="center">
+                            <a href="modal1" class="indigo darken-1 waves-effect waves-light btn" onclick="submitGuess()">Submit Guess</a>
+                        </div>
+                    </div>
+                </form>
+                <!-- waiting for players modal -->
+                <div id="modal1" class="modal">
+                    <div class="modal-content grey-text text-darken-2" id="modalFill">
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,8 +85,7 @@
             <div class="section">
                 <div class="row">
                     <!-- blank canvas block -->
-                    <div class="col s12 m12 center" id="customDrawing">
-                    </div>
+                    <div class="col s12 m12 center" id="customDrawing"></div>
                 </div>
             </div>
         </div>
@@ -69,11 +101,6 @@
 
         <!-- other js -->
         <script>
-            // submit guess button
-            function submit(){
-                console.log('submit');
-                // pop-up, check if other players are finished otherwise pls wait msg
-            }
             
             // make changes based on user
             // colors based on user

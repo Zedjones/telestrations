@@ -31,6 +31,26 @@
     </head>
     
     <body>
+        <!-- script at top -->
+        <script>
+            // convert canvas to SVG
+            function toSVG(){
+                var svgString = lc.getSVGString();
+                return svgString;
+            }
+            
+            // submit drawing button
+            function submit(){
+                var svgString = toSVG();
+                var obj = {"svg": svgString, 
+                           "guess": ""};
+                var req = new XMLHttpRequest();
+                req.open('POST', '/submit', true);
+                req.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+                req.send(JSON.stringify(obj));
+                return true;
+            }
+        </script>
         <!-- header -->
         <nav class="customHeader" role="navigation">
             <div class="nav-wrapper container"><a id="logo-container" href="" class="brand-logo">Telestrations</a>
@@ -56,7 +76,7 @@
                 </div>
             </div>
             <!-- waiting for players modal -->
-            <div style="overflow:hidden" id="modal1" class="modal">
+            <div id="modal1" class="modal">
                 <div class="modal-content grey-text text-darken-2">
                     <h4>Waiting on players:</h4>
                     <p id="players"></p>
@@ -81,21 +101,6 @@
                 document.getElementsByClassName('my-drawing')[0],
                 {imageURLPrefix: 'assets/images'}
             );
-            // convert canvas to SVG
-            function toSVG(){
-                var svgString = lc.getSVGString();
-                return svgString;
-            }
-            // submit drawing button
-            function submit(){
-                var svgString = toSVG();
-                var obj = {"SVG": svgString};
-                var req = new XMLHttpRequest();
-                req.open('POST', '/', true);
-                req.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-                req.send(JSON.stringify(obj));
-                return true;
-            }
             
             // refresh the waiting on player list every half second
             setInterval(function refreshing(){

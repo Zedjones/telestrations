@@ -229,7 +229,7 @@
                 }
                 var difficulty = $("input[name='group1']:checked").val();
                 var obj = {"time": time, 
-                             "difficulty": difficulty};
+                           "difficulty": difficulty};
                 var req = new XMLHttpRequest();
                 req.open('POST', '/changeSettings', true);
                 req.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
