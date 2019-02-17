@@ -203,6 +203,7 @@
             
             // starting the game button
             function startGame(){
+                req = new(XMLHttpRequest);
                 req.open('POST', '/startGame', true);
                 req.send();
                 window.location.href = "/drawPage";

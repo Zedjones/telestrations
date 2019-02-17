@@ -31,6 +31,11 @@ type TemplateRenderer struct {
 	templates *template.Template
 }
 
+type GameSettings struct {
+	Time       string `json:"time"`
+	Difficulty string `json:"difficulty"`
+}
+
 var gameManager telestrationsLib.GameState
 
 var colorMap = map[int]string{
@@ -162,4 +167,12 @@ func checkForStart(c echo.Context) error {
 	} else {
 		return c.NoContent(http.StatusForbidden)
 	}
+}
+
+func changeSettings(c echo.Context) error {
+	settings := &GameSettings{}
+	if err := c.Bind(&settings); err != nil {
+		fmt.Println(err)
+	}
+	
 }
