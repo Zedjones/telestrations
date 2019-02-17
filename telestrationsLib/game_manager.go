@@ -43,9 +43,20 @@ func (gm GameState) GMSetState(state gameState) {
 	gm.state = state
 }
 
-func (gm GameState) GMGetPlayer(id int) {
+func (gm GameState) GMGetPlayer(id int) *Player {
+	play := gm.AllPlayers[id]
+	return &play
+}
+
+func (gm GameState) GMGetPlayersByName(pname string) [](*Player) {
+	players := make([](*Player), 0)
+	for _, v := range gm.AllPlayers {
+		if v.name == pname {
+			players = append(players, &v)
+		}
+	}
+	return players
 
 }
 
 // Round Timer
-// GetPlayer
