@@ -7,7 +7,9 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/gorilla/sessions"
 	"github.com/labstack/echo"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/middleware"
 	"github.com/zedjones/telestrations/telestrationsLib"
 )
@@ -54,6 +56,7 @@ func main() {
 	}
 	e.Renderer = renderer
 	e.Use(middleware.Logger())
+	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 	e.Static("/", "../templates/")
 	e.GET("/game", drawPage)
 	e.GET("/", index)
@@ -78,22 +81,24 @@ func drawPage(c echo.Context) error {
 }
 
 func index(c echo.Context) error {
-	id, err := c.Cookie("id")
-	if err != nil {
+	sess, _ := session.Get("session", c)
+	id, err := sess.Values["id"]
+	if !err {
 		return c.Redirect(http.StatusFound, "/login")
 	}
 	data := make(map[string]interface{})
 	data["colorMap"] = colorMap
 	data["players"] = gameManager.GMGetPlayersAsArray()
-	data["id"] = id.Value
+	data["id"] = id
 	fmt.Println(data["players"])
 	return c.Render(http.StatusOK, "start.html", data)
 }
 
 func login(c echo.Context) error {
 	fmt.Println("login")
-	_, err := c.Cookie("id")
-	if err == nil {
+	sess, _ := session.Get("session", c)
+	_, err := sess.Values["id"]
+	if err {
 		c.Redirect(http.StatusFound, "/")
 	}
 	return c.Render(http.StatusOK, "login.html", nil)
@@ -104,10 +109,9 @@ func addUser(c echo.Context) error {
 	name := c.FormValue("name")
 	id := telestrationsLib.AddUser(name)
 	gameManager.GMAddPlayer(id, name)
-	cookie := new(http.Cookie)
-	cookie.Name = "id"
-	cookie.Value = strconv.Itoa(id)
-	c.SetCookie(cookie)
+	sess, _ := session.Get("session", c)
+	sess.Values["id"] = strconv.Itoa(id)
+	sess.Save(c.Request(), c.Response())
 	return c.Redirect(http.StatusFound, "/")
 }
 
