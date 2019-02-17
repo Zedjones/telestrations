@@ -98,7 +98,7 @@ func index(c echo.Context) error {
 	aid = id.(*telestrationsLib.Player)
 	fmt.Println(gameManager.GMPlayerExists(aid.ID))
 	if !gameManager.GMPlayerExists(aid.ID) {
-		id := telestrationsLib.AddUser(aid.Name)
+		id := telestrationsLib.AddUser(aid.Name, "test")
 		gameManager.GMAddPlayer(id, aid.Name)
 	}
 	fmt.Println(gameManager.AllPlayers)
@@ -123,7 +123,7 @@ func login(c echo.Context) error {
 func addUser(c echo.Context) error {
 	fmt.Println("adduser")
 	name := c.FormValue("name")
-	id := telestrationsLib.AddUser(name)
+	id := telestrationsLib.AddUser(name, "test")
 	gameManager.GMAddPlayer(id, name)
 	sess, _ := session.Get("session", c)
 	sess.Values["id"] = *gameManager.GMGetPlayer(id) //strconv.Itoa(id)

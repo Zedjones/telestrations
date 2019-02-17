@@ -8,8 +8,9 @@ import (
 )
 
 type User struct {
-	ID   int    `db:"id"`
-	Name string `db:"name"`
+	ID        int    `db:"id"`
+	Name      string `db:"name"`
+	StartWord string `db:"starting_word"`
 }
 
 type Guess struct {
@@ -32,10 +33,10 @@ type Settings struct {
 
 const connStr = "postgres://zedjones:password@localhost/telestrations?sslmode=disable"
 
-const createUserStr = "INSERT INTO \"user\" (name) VALUES ($1)"
-const getUserStr = "SELECT id, name FROM \"user\" WHERE id = $1"
+const createUserStr = "INSERT INTO \"user\" (name, starting_word) VALUES ($1, $2)"
+const getUserStr = "SELECT id, name, starting_word FROM \"user\" WHERE id = $1"
 const resetIncStr = "ALTER SEQUENCE user_id_seq RESTART with 1"
-const getLastUser = "SELECT id, name FROM \"user\" ORDER BY id DESC"
+const getLastUser = "SELECT id, name, starting_word FROM \"user\" ORDER BY id DESC"
 const deleteUsersStr = "DELETE FROM \"user\""
 
 const insertPictureStr = "INSERT INTO picture (user_id, svg, round) VALUES ($1, $2, $3)"
@@ -65,9 +66,9 @@ func ResetInc() {
 	}
 }
 
-func AddUser(name string) int {
+func AddUser(name string, word string) int {
 	db := Connect()
-	if _, err := db.Exec(createUserStr, name); err != nil {
+	if _, err := db.Exec(createUserStr, name, word); err != nil {
 		fmt.Println(err)
 	}
 	users := []User{}
