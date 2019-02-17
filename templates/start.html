@@ -167,10 +167,6 @@
             function toSVG(){
                 var svgString = lc.getSVGString();
                 console.log(svgString);
-            } 
-            
-            function tempFunction(json, status, ajaxreq) {
-                continue
             }
             
             // save settings
@@ -187,18 +183,24 @@
                 req.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
                 req.send(JSON.stringify(obj));
             }
-            
-            // load players
-            $(document).ready(function(){
-                var playersPPG = document.getElementById('players');
-            });
-
-            $.ajax({
-                type: "GET",
-                url: "/getPlayers",
-                dataType: "json",
-                success: tempFunction
-            })
+            setInterval(function refreshing(){
+                $.ajax({
+                    type: "GET",
+                    url: "/getPlayers",
+                    dataType: "json"
+                })
+                .success(function(data){
+                    console.log(data);
+                    var playersPPG = document.getElementById('players');
+                    playersPPG.innerHTML = "";
+                    for(var i = 0; i < data.length; i++){
+                        if(data[i].ID == 1){
+                            playersPPG.innerHTML += "<i class='material-icons'>star</i>";
+                        }
+                        playersPPG.innerHTML += data[i].Name + "<i class='material-icons'>brightness_1</i><br>";
+                    }
+                })          
+            }, 1000);
         </script>
     </body> 
 </html>
