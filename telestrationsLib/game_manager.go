@@ -67,8 +67,24 @@ func (gm GameState) GMSetRoundLength(roundTime int) {
 }
 
 func (gm GameState) GMGetPlayer(id int) *Player {
-	play := gm.AllPlayers[id]
-	return &play
+	for _, v := range gm.AllPlayers {
+		if v.ID == id {
+			return &v
+		}
+	}
+	// play := gm.AllPlayers[id]
+	return &Player{999, "aaaa", StateDone}
+}
+
+func (gm GameState) GMPlayerExists(id int) bool {
+	var b bool = false
+	for _, v := range gm.AllPlayers {
+		if v.ID == id {
+			b = true
+			break
+		}
+	}
+	return b
 }
 
 func (gm GameState) GMGetPlayersByName(pname string) [](*Player) {
