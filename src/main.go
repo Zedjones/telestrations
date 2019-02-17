@@ -80,9 +80,12 @@ func drawPage(c echo.Context) error {
 	id, _ := sess.Values["id"]
 	var aid *telestrationsLib.Player
 	aid = id.(*telestrationsLib.Player)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
+	oddeven := len(gameManager.AllPlayers) % 2
+	if oddeven == 1 {
+		// odd page
+	} else {
+		// even page
+	}
 	data := make(map[string]interface{})
 	data["id"] = strconv.Itoa(aid.ID)
 	return c.Render(http.StatusOK, "game.html", data)
