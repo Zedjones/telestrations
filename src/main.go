@@ -176,6 +176,7 @@ func startGame(c echo.Context) error {
 }
 
 func checkForStart(c echo.Context) error {
+	fmt.Println(gameManager.State)
 	if gameManager.State == telestrationsLib.StateProgress {
 		return c.NoContent(http.StatusOK)
 	} else {
