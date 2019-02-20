@@ -64,7 +64,9 @@ func GetNouns(words []string) []Word {
 		}
 	}()
 	wg.Wait()
-	return allWords
+	return WordFilter(allWords, func(word Word) bool {
+		return contains(word.Tags, "n")
+	})
 }
 
 func GetRandomWords(sug string, limit int) []Word {
@@ -81,9 +83,6 @@ func GetRandomWords(sug string, limit int) []Word {
 		wordList = append(wordList, item.Word)
 	}
 	nouns := GetNouns(wordList)
-	nouns = WordFilter(nouns, func(word Word) bool {
-		return contains(word.Tags, "n")
-	})
 	fmt.Println(nouns)
 	fmt.Println(len(nouns))
 	return nouns
