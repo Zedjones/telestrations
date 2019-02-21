@@ -1,2 +1,4 @@
 go.sum
 test.go
+src/main
+telestrations_copy.db
