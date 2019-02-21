@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"io"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gorilla/sessions"
@@ -58,6 +59,15 @@ var colorMap = map[int]string{
 	12: "#bcaaa4"}
 
 func main() {
+	if _, err := os.Stat("telestrations_copy.db"); err == nil {
+		os.Remove("telestrations_copy.db")
+	}
+	origDB, _ := os.Open("../telestrations.db")
+	newDB, _ := os.Create("../telestrations_copy.db")
+	io.Copy(newDB, origDB)
+	newDB.Sync()
+	origDB.Close()
+	newDB.Close()
 	telestrationsLib.DeleteAllUsers()
 	go telestrationsLib.ResetInc()
 	gameManager = *telestrationsLib.CreateGameState()
