@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/jmoiron/sqlx"
-	_ "github.com/lib/pq" // need pq for postgresql
+	_ "github.com/mattn/go-sqlite3" // need go-sqlite3 for sqlite
 )
 
 type User struct {
@@ -31,9 +31,9 @@ type Settings struct {
 	Difficulty string `db:"word_difficulty"`
 }
 
-const connStr = "postgres://zedjones:password@localhost/telestrations?sslmode=disable"
+const connStr = "telestrations_copy.db"
 
-const createUserStr = "INSERT INTO \"user\" (name, starting_word) VALUES ($1, $2)"
+const createUserStr = "INSERT INTO user (name, starting_word) VALUES ($1, $2)"
 const getUserStr = "SELECT id, name, starting_word FROM \"user\" WHERE id = $1"
 const resetIncStr = "ALTER SEQUENCE user_id_seq RESTART with 1"
 const getLastUser = "SELECT id, name, starting_word FROM \"user\" ORDER BY id DESC"
@@ -53,18 +53,11 @@ const initSettingsStr = "INSERT INTO \"settings\" (id) VALUES ($1)"
 const getSettingsStr = "SELECT id, time_limit, word_difficulty FROM settings WHERE id = $1"
 
 func Connect() *sqlx.DB {
-	db, err := sqlx.Open("postgres", connStr)
+	db, err := sqlx.Open("sqlite3", connStr)
 	if err != nil {
 		fmt.Println("Error connecting to database.")
 	}
 	return db
-}
-
-func ResetInc() {
-	db := Connect()
-	if _, err := db.Exec(resetIncStr); err != nil {
-		fmt.Println(err)
-	}
 }
 
 func AddUser(name string, word string) int {
@@ -75,6 +68,7 @@ func AddUser(name string, word string) int {
 	users := []User{}
 	if err := db.Select(&users, getLastUser); err != nil {
 		fmt.Println(err)
+		return -1
 	}
 	return users[0].ID
 }

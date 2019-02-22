@@ -63,13 +63,12 @@ func main() {
 		os.Remove("telestrations_copy.db")
 	}
 	origDB, _ := os.Open("../telestrations.db")
-	newDB, _ := os.Create("../telestrations_copy.db")
+	newDB, _ := os.Create("telestrations_copy.db")
 	io.Copy(newDB, origDB)
 	newDB.Sync()
 	origDB.Close()
 	newDB.Close()
-	telestrationsLib.DeleteAllUsers()
-	go telestrationsLib.ResetInc()
+	telestrationsLib.InitSettings(1)
 	gameManager = *telestrationsLib.CreateGameState()
 	e := echo.New()
 	renderer := &TemplateRenderer{
@@ -89,6 +88,7 @@ func main() {
 	e.GET("/drawPage", drawPage)
 	e.POST("/startGame", startGame)
 	e.GET("/checkForStart", checkForStart)
+	e.POST("/changeSettings", changeSettings)
 	e.POST("/submit", submit)
 	e.Start(":1234")
 }
@@ -186,7 +186,6 @@ func startGame(c echo.Context) error {
 }
 
 func checkForStart(c echo.Context) error {
-	fmt.Println(gameManager.State)
 	if gameManager.State == telestrationsLib.StateProgress {
 		return c.NoContent(http.StatusOK)
 	} else {

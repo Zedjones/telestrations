@@ -232,7 +232,7 @@
                     time = -1;
                 }
                 var difficulty = $("input[name='group1']:checked").val();
-                var obj = {"time": time, 
+                var obj = {"time": parseInt(time, 10), 
                            "difficulty": difficulty};
                 var req = new XMLHttpRequest();
                 req.open('POST', '/changeSettings', true);
