@@ -1,2 +1,2 @@
 # telestrations
-Implementation of telestrations in the browser using Go, Echo, and PostgresQL
+Implementation of telestrations in the browser using Go, Echo, and SQLite
